@@ -59,12 +59,12 @@
         data: function(){
             return {
             	form: {
-					name: '',
-					sex: '',
-					tel: '',
-					actor: '',
-					pwd:'',
-					state:''
+							name: '',
+							sex: '',
+							tel: '',
+							actor: '',
+							pwd:'',
+							state:''
             	}
             }
         },

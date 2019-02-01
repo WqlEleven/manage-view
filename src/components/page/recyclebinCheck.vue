@@ -1,21 +1,20 @@
-<template>
-    <div class="table">      
+<template>   
         <div class="container">          
            <el-form ref="form" :model="form" label-width="80px">
 							<el-form-item label="标题" >
 							<el-input v-model="form.title"></el-input>
 							</el-form-item>
 							<el-form-item label="分类:" disabled>
-							<el-form-item label="转载"></el-form-item>
+							<span>转载</span>
 							</el-form-item>
 						 <el-form-item label="文章链接:">
-							<el-form-item v-model="form.lianjie"></el-form-item>
+							<span>http://pay.changshouclub.com/changshou/loginController.do?login</span>
 						 </el-form-item>
 							<el-form-item label="正文">
 							<el-input type="textarea" v-model="form.article" size='medium'></el-input>
 							</el-form-item>
 						 <el-form-item label="产品链接:">
-							<el-form-item v-model="form.pro"></el-form-item>
+							<span>http://pay.changshouclub.com/changshou/loginController.do?login</span>
 						 </el-form-item>
 						 <el-form-item>
 							 <router-link to="/recyclebin">
@@ -24,7 +23,6 @@
 						</el-form-item>
 					</el-form>
         </div>
-    </div>
 </template>
 
 <script>
@@ -48,9 +46,7 @@
             
         },
         methods: {
-			onSubmit() {
-				console.log('submit!');
-			  }
+			
         }
     }
 

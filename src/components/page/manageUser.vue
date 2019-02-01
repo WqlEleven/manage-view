@@ -30,9 +30,9 @@
 				<el-table-column prop="sex" label="性别" width="50" align="center"></el-table-column>
 				<el-table-column prop="tel" label="电话" width="180" align="center"></el-table-column>
 				<el-table-column prop="admin" label="录入人员" width="180" align="center"></el-table-column>
-				<el-table-column prop="lastIp" label="最后登录IP" width="180" align="center"></el-table-column>
-				<el-table-column prop="lastTime" label="最后登录时间" width="220" align="center"></el-table-column>
-				<el-table-column label="操作" width="200" align="center">
+				<el-table-column prop="lastIp" label="最后登录IP" width="150" align="center"></el-table-column>
+				<el-table-column prop="lastTime" label="最后登录时间" width="200" align="center"></el-table-column>
+				<el-table-column label="操作" style="width: 10%" align="center">
 					<template slot-scope="scope">
 						<router-link to='/revise'>
 							<el-button type="text" icon="el-icon-edit">修改</el-button>	

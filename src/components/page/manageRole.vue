@@ -9,13 +9,13 @@
 			 <el-table :data="tableData" border style="width: 100%">
 				<el-table-column prop="num" label="序号" width="50" align="center"></el-table-column>
 				<el-table-column prop="actoename" label="角色名称" width="150" align="center"></el-table-column>
-				<el-table-column prop="actormeg" label="角色描述" width="400" align="center"></el-table-column>
+				<el-table-column prop="actormeg" label="角色描述" style="width: 20%" align="center"></el-table-column>
 				<el-table-column prop="creattime" label="创建时间" width="180" align="center"></el-table-column>
-				<el-table-column label="操作" width="300" align="center">
+				<el-table-column label="操作" width="200" align="center">
 					<template slot-scope="scope">
 						<router-link to='/amend'>
 							<el-button type="text" icon="el-icon-edit">修改</el-button>	
-						</router-link>&nbsp;&nbsp;
+						</router-link>
 						<el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
 					</template>
 				</el-table-column>
@@ -69,5 +69,8 @@
    }
 	 .gehang{
 		 height:20px;
+	 }
+	 .el-button{
+	 	margin-right: 15px;
 	 }
 </style>
