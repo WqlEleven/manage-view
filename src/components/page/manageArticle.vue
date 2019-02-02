@@ -19,7 +19,7 @@
 									<router-link to='/preview'>
 										<el-button type="text" icon="el-icon-search">查看</el-button>	
 									</router-link>
-									<el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
+									
 									<router-link to='/editarticle'>
 										<el-button type="text" icon="el-icon-edit">编辑</el-button>	
 									</router-link>

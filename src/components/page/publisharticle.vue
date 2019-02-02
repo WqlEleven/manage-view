@@ -1,13 +1,11 @@
-<template>
-    <div>    
-      <div class="container">
-				<el-form ref="form" :model="form" label-width="40px">
-					<el-form-item label="标题">
-					<el-input v-model="form.title"></el-input>
-					</el-form-item>
-				</el-form>
-				<el-form :inline="true" :model="formInline" class="demo-form-inline">
-					
+<template>   
+  <div class="container">
+		  <el-form ref="form" :model="form" label-width="40px">
+			  <el-form-item label="标题">
+				<el-input v-model="form.title"></el-input>
+			  </el-form-item>
+		  </el-form>	 
+			<el-form :inline="true" :model="formInline" class="demo-form-inline">
 					<el-form-item label="分类">
 						<el-select v-model="formInline.region" placeholder="请选择">
 							<el-option label="原创" value="yuanchuang"></el-option>
@@ -18,9 +16,9 @@
 					<el-form-item label="标签">
 						<el-input v-model="formInline.user"></el-input>
 					</el-form-item>		  
-				</el-form>
+			</el-form>
 				
-					<el-form :inline="true" :model="formInline" class="demo-form-inline">
+			<el-form :inline="true" :model="formInline" class="demo-form-inline">
 						<el-form-item label="头图"></el-form-item>
 						<el-upload
 							class="upload-demo"
@@ -33,9 +31,13 @@
 								<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 							</div>					
 						</el-upload>
-					</el-form>						
-					<quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor>
-						<br />
+			</el-form>
+			
+			
+			
+					<!-- 富文本编辑器 -->
+			<!-- <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor> -->
+			<br />
 					<el-row>
 						<router-link to='/preview'>
 							<el-button type="primary" icon="el-icon-view" round>预览</el-button>
@@ -44,8 +46,7 @@
 						<el-button type="primary" icon="el-icon-back" round>存入草稿箱</el-button>
 						<el-button type="primary" icon="el-icon-delete" round>删除</el-button>
 					</el-row>
-        </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -57,9 +58,9 @@
         name: 'editarticle',
         data: function(){
             return {
-							form: {
-							title: ''
-							},
+				 form: {
+				  title: ''
+				 },
                 content: '',
                 editorOption: {
                     placeholder: '在这里输入文章正文！'

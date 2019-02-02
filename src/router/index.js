@@ -14,7 +14,11 @@ export default new Router({
             component: resolve => require(['../components/common/Home.vue'], resolve),
             meta: { title: '自述文件' },
             children:[
-				
+				{
+					path: '/publisharticle',
+					component: resolve => require(['../components/page/publisharticle.vue'], resolve),
+					meta: { title: '发布文章' }
+				},
 				{
 					path: '/manageArticle',
 					component: resolve => require(['../components/page/manageArticle.vue'], resolve),
@@ -50,6 +54,12 @@ export default new Router({
 					component: resolve => require(['../components/page/lablecheck.vue'], resolve),
 					meta: { title: '标签管理查看' }
 				},
+				{
+					path: '/l_editarticle',
+					component: resolve => require(['../components/page/l_editarticle.vue'], resolve),
+					meta: { title: '编辑' }
+				},
+				
 				{
 					path: '/recyclebin',
 					component: resolve => require(['../components/page/recyclebin.vue'], resolve),

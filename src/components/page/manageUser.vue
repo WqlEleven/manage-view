@@ -9,8 +9,14 @@
 							<el-form-item label="手机号:">
 							<el-input v-model="formInline.user" ></el-input>
 							</el-form-item>
-							<el-form-item label="角色:">
+							<!-- <el-form-item label="角色:">
 							<el-input v-model="formInline.user" ></el-input>
+							</el-form-item> -->
+							<el-form-item label="角色:">
+								<el-select v-model="formInline.user" placeholder="请选择">
+									<el-option label="系统管理员" value="admin"></el-option>
+									<el-option label="普通用户" value="user"></el-option>
+								</el-select>
 							</el-form-item>
 							<el-form-item>
 							<router-link to='/detail'>

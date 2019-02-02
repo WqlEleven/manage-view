@@ -11,9 +11,15 @@
 				<el-form-item label="电话:">
 					<el-input v-model="form.tel"></el-input>
 				</el-form-item> 
-				<el-form-item label="角色:">
+				<!-- <el-form-item label="角色:">
 					<el-input v-model="form.actor"></el-input>
-				</el-form-item> 
+				</el-form-item> --> 
+				<el-form-item label="角色">
+					<el-select v-model="form.actor" placeholder="请选择">
+						<el-option label="系统管理员" value="admin"></el-option>
+						<el-option label="普通用户" value="user"></el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="录入人员:">
 					<el-input v-model="form.admin" ></el-input>
 				</el-form-item>

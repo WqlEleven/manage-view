@@ -1,11 +1,11 @@
 <template>
-    <div>    
+       
       <div class="container">
-				<el-form ref="form" :model="form" label-width="40px">
-					<el-form-item label="标题">
-					<el-input v-model="form.title"></el-input>
-					</el-form-item>
-				</el-form>
+		  <el-form ref="form" :model="form" label-width="40px">
+		  	<el-form-item label="标题">
+		  	<el-input v-model="form.title"></el-input>
+		  	</el-form-item>
+		  </el-form>
 				<el-form :inline="true" :model="formInline" class="demo-form-inline">
 					
 					<el-form-item label="分类">
@@ -45,7 +45,6 @@
 						<el-button type="primary" icon="el-icon-delete" round>删除</el-button>
 					</el-row>
         </div>
-    </div>
 </template>
 
 <script>
@@ -57,9 +56,9 @@
         name: 'editarticle',
         data: function(){
             return {
-							form: {
-							title: ''
-							},
+				form: {
+				  title: ''
+				 },
                 content: '',
                 editorOption: {
                     placeholder: '在这里输入文章正文！'

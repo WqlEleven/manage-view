@@ -8,6 +8,16 @@
 				 <el-form-item label="角色描述:">
 					 <el-input type="textarea" v-model="form.actormsg"></el-input>
 				 </el-form-item>
+				 <el-form-item label="角色权限:">
+				 	<el-checkbox-group v-model="form.power">
+				 		<el-checkbox label="发表文章" name="type"></el-checkbox>
+				 		<el-checkbox label="编辑文章" name="type"></el-checkbox>
+				 		<el-checkbox label="标签管理" name="type"></el-checkbox>
+				 		<el-checkbox label="回收站管理" name="type"></el-checkbox>
+				 		<el-checkbox label="用户管理" name="type"></el-checkbox>
+				 		<el-checkbox label="角色管理" name="type"></el-checkbox>
+				 	</el-checkbox-group>
+				 </el-form-item>
 				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			   <el-button type="primary" round @click="add">确认新增</el-button>&nbsp;&nbsp;&nbsp;
@@ -27,6 +37,7 @@
 							form: {
 								actorname: '',
 								actormsg: '',
+								power:[]
 							}
             }
         },

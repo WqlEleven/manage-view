@@ -41,17 +41,18 @@
 					{
 						icon: 'el-icon-lx-copy',
 						index: '3',
-						title: '服务管理',
+						title: '内容管理',
 						subs: [
+							{
+								index: 'publisharticle',
+								title: '发布文章',
+							},
 							{
 								index: 'manageArticle',
 								title: '文章管理',								
 							},
 							
-							{
-								index: 'editarticle',
-								title: '文章编辑',
-							},
+							
 							{
 								index: 'manageLable',
 								title: '标签管理',							

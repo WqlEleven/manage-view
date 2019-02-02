@@ -26,7 +26,7 @@
 					  <el-radio label="启用"></el-radio>
 					</el-radio-group>
 				 </el-form-item>
-				<el-form-item label="录入人员:">
+				<el-form-item label="录入人员:" class="active">
 					<span>王五</span>
 				</el-form-item>
 				<el-form-item label="注册时间:">
@@ -92,5 +92,8 @@
 <style scoped>
 	span{
 		color: #666;
+	}
+	.active{
+		display: none;
 	}
 </style>
