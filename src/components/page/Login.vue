@@ -39,17 +39,17 @@
                 }
             }
         },
-        methods: {	
+        methods: {
 			handleLogin(){
-				this.$axios.post('http://guanjia.applinzi.com/admin/login',this.ruleForm)
+				this.$axios.post('http://guanjia.applinzi.com/admin/login',this.$qs.stringify(this.ruleForm),{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
 				.then(function (res) {
 					console.log(res);
 				  })
 				  .catch(function (err) {
 					console.log(err);
 				  });
-			}		
-			
+			}
+
 			/*
 			 async handleLogin() {
       const res = await this.$http.post("login", this.formdata);
@@ -73,7 +73,7 @@
         this.$message.warning(msg);
       }
     }
-			
+
 			*/
 // 			axios.get('/user?ID=12345')
 //   .then(function (response) {
