@@ -1,5 +1,5 @@
 module.exports = {
-    baseUrl: './',
+    baseUrl: 'http://guanjia.applinzi.com/',
     productionSourceMap: false,
     devServer: {
         proxy: {

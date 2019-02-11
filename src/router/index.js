@@ -23,7 +23,7 @@ export default new Router({
 					path: '/manageArticle',
 					component: resolve => require(['../components/page/manageArticle.vue'], resolve),
 					meta: { title: '文章管理' }
-				},			
+				},
 				{
 					path: '/preview',
 					component: resolve => require(['../components/page/preview.vue'], resolve),
@@ -59,7 +59,7 @@ export default new Router({
 					component: resolve => require(['../components/page/l_editarticle.vue'], resolve),
 					meta: { title: '编辑' }
 				},
-				
+
 				{
 					path: '/recyclebin',
 					component: resolve => require(['../components/page/recyclebin.vue'], resolve),
@@ -69,7 +69,7 @@ export default new Router({
 					path: '/recyclebinCheck',
 					component: resolve => require(['../components/page/recyclebinCheck.vue'], resolve),
 					meta: { title: '回收站查看' }
-				},				
+				},
 				{
 					path: '/manageUser',
 					component: resolve => require(['../components/page/manageUser.vue'], resolve),
@@ -120,16 +120,6 @@ export default new Router({
 					component: resolve => require(['../components/page/log.vue'], resolve),
 					meta: { title: '操作日志' }
 				},
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
                 {
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
@@ -140,9 +130,6 @@ export default new Router({
                     component: resolve => require(['../components/page/Icon.vue'], resolve),
                     meta: { title: '自定义图标' }
                 },
-			
-				
-				
                 {
                     path: '/table',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve),
@@ -158,7 +145,7 @@ export default new Router({
                     component: resolve => require(['../components/page/BaseForm.vue'], resolve),
                     meta: { title: '基本表单' }
                 },
-				
+
                 {
                     // 富文本编辑器组件
                     path: '/editor',
@@ -169,13 +156,13 @@ export default new Router({
                     // markdown组件
                     path: '/markdown',
                     component: resolve => require(['../components/page/Markdown.vue'], resolve),
-                    meta: { title: 'markdown编辑器' }    
+                    meta: { title: 'markdown编辑器' }
                 },
                 {
                     // 图片上传组件
                     path: '/upload',
                     component: resolve => require(['../components/page/Upload.vue'], resolve),
-                    meta: { title: '文件上传' }   
+                    meta: { title: '文件上传' }
                 },
                 {
                     // vue-schart组件
