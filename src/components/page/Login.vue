@@ -14,7 +14,7 @@
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="handleLogin()">登录</el-button>
                 </div>
             </el-form>
         </div>
@@ -39,20 +39,63 @@
                 }
             }
         },
-        methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            }
+        methods: {	
+			handleLogin(){
+				this.$axios.post('http://guanjia.applinzi.com/admin/login',this.ruleForm)
+				.then(function (res) {
+					console.log(res);
+				  })
+				  .catch(function (err) {
+					console.log(err);
+				  });
+			}		
+			
+			/*
+			 async handleLogin() {
+      const res = await this.$http.post("login", this.formdata);
+      console.log(res);
+      const {
+        data: {
+          data,
+          meta: { msg, status }
         }
+      } = res;
+      if (status === 200) {
+        // 保存token值(将来写其他功能时会用)
+        localStorage.setItem("token", data.token);
+        //
+        // localStorage.getItem('token')
+        // 渲染home组件
+        this.$router.push({
+          name: "home"
+        });
+      } else {
+        this.$message.warning(msg);
+      }
     }
+			
+			*/
+// 			axios.get('/user?ID=12345')
+//   .then(function (response) {
+//     console.log(response);
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+//             submitForm(formName) {
+//                 this.$refs[formName].validate((valid) => {
+//                     if (valid) {
+//                         localStorage.setItem('ms_username',this.ruleForm.username);
+//                         this.$router.push('/');
+//                     } else {
+//                         console.log('error submit!!');
+//                         return false;
+//                     }
+//                 });
+//             }
+//         }
+    }
+}
 </script>
 
 <style scoped>
