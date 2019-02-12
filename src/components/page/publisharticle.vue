@@ -7,9 +7,9 @@
                 </el-form-item>
                 <el-form-item prop="category_id" label="分类">
                     <el-select v-model="form.category_id" placeholder="请选择">
-                        <el-option label="原创" value="1"></el-option>
-                        <el-option label="转载" value="2"></el-option>
-                        <el-option label="用户投稿" value="3"></el-option>
+                        <el-option label="原创" value="2"></el-option>
+                        <el-option label="转载" value="3"></el-option>
+                        <el-option label="用户投稿" value="4"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item prop="tag" label="标签">
@@ -114,16 +114,14 @@
                         console.log(this.form.content);
                         if (type == 'publish') {
                             this.$axios.post(
-                                'http://guanjia.applinzi.com/admin/article_add',
+                                'admin/article_add',
                                 this.$qs.stringify(this.form),
                                 //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
                             ).then((res) => {
                                 console.log(res);
                                 if (res.data.code == 0) {
                                     this.$message.success(res.data.message);
-                                    next({
-                                        path: '/manageArticle'
-                                    })
+                                    this.$router.push('/manageArticle');
                                 } else {
                                     console.log(res.data.message);
                                     this.$message.warning(res.data.message);

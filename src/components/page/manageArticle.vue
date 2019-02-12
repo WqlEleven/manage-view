@@ -11,9 +11,9 @@
         </div>
 
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="datatime" label="时间" width="200" align="center"></el-table-column>
+            <el-table-column prop="add_time" label="时间" width="200" align="center"></el-table-column>
             <el-table-column prop="title" label="产品推广标题" style="width: 20%" align="center"></el-table-column>
-            <el-table-column prop="person" label="转发人数/查看人数" width="250" align="center"></el-table-column>
+            <el-table-column prop="click" label="转发人数/查看人数" width="250" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
                     <router-link to='/preview'>
@@ -40,18 +40,26 @@
         data() {
             return {
                 radio: '',
-                tableData: [{
-                    datatime: '2019/01/28   11:08:00',
-                    title: '产品推广标题',
-                    person: '100/650'
-                }, {
-                    datatime: '2019/01/28   11:08:00',
-                    title: '产品推广标题',
-                    person: '100/650'
-                }]
+				page:1,
+                tableData: []
             }
         },
+		created(){
+			this.getArticle();
+		},
         methods: {
+			//获取文章列表
+			getArticle(){
+				this.$axios.post('admin/article_list',this.$qs.stringify(this.page))
+				.then((res)=>{
+					console.log(res);
+					this.tableData = res.data.data.list;
+					console.log(res.data.data.list)
+				})
+				.catch((err)=>{
+					console.log(err)
+				})
+			},
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
