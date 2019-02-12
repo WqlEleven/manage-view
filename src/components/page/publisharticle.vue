@@ -5,8 +5,8 @@
                 <el-form-item prop="title" label="标题">
                     <el-input v-model="form.title"></el-input>
                 </el-form-item>
-                <el-form-item prop="type" label="分类">
-                    <el-select v-model="form.type" placeholder="请选择">
+                <el-form-item prop="category_id" label="分类">
+                    <el-select v-model="form.category_id" placeholder="请选择">
                         <el-option label="原创" value="1"></el-option>
                         <el-option label="转载" value="2"></el-option>
                         <el-option label="用户投稿" value="3"></el-option>
@@ -18,11 +18,11 @@
                 <el-form-item prop="picture" label="头图">
                     <el-upload
                             class="picture-uploader"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="http://guanjia.applinzi.com/admin/upload_image"
                             :show-file-list="false"
                             :on-success="handlePictureSuccess"
                             :before-upload="beforePictureUpload">
-                        <img v-if="form.picture" :src="form.picture" class="picture">
+                        <img v-if="pictureUrl" :src="pictureUrl" class="picture">
                         <i v-else class="el-icon-plus picture-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
@@ -65,7 +65,7 @@
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'}
                     ],
-                    type: [
+                    category_id: [
                         {required: true, message: '请选择分类', trigger: 'blur'}
                     ],
                     picture: [
@@ -78,6 +78,7 @@
                 editorOption: {
                     placeholder: '在这里输入文章正文！'
                 },
+                pictureUrl: '',
             }
         },
         components: {
@@ -86,17 +87,21 @@
         methods: {
             handlePictureSuccess(res, file) {
                 console.log(res)
-                this.form.picture = URL.createObjectURL(file.raw);
+                if (res.code == 0) {
+                    //this.form.picture = URL.createObjectURL(file.raw);
+                    this.form.picture = res.data.file;
+                    this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.file;
+                }
             },
             beforePictureUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                    this.$message.error('上传图片只能是 JPG 格式!');
                 }
                 if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                    this.$message.error('上传图片大小不能超过 2MB!');
                 }
                 return isJPG && isLt2M;
             },
@@ -108,7 +113,24 @@
                     if (valid) {
                         console.log(this.form.content);
                         if (type == 'publish') {
-                            this.$message.success('提交成功1！');
+                            this.$axios.post(
+                                'http://guanjia.applinzi.com/admin/article_add',
+                                this.$qs.stringify(this.form),
+                                //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+                            ).then((res) => {
+                                console.log(res);
+                                if (res.data.code == 0) {
+                                    this.$message.success(res.data.message);
+                                    next({
+                                        path: '/manageArticle'
+                                    })
+                                } else {
+                                    console.log(res.data.message);
+                                    this.$message.warning(res.data.message);
+                                }
+                            }).catch((res) => {
+                                console.log(res);
+                            });
                         } else {
                             this.$message.success('提交成功！');
                         }
