@@ -14,6 +14,7 @@ Vue.use(ElementUI, {
     size: 'small'
 });
 axios.defaults.baseURL = 'http://guanjia.applinzi.com/';
+axios.defaults.withCredentials = true;
 Vue.prototype.$axios = axios;
 Vue.prototype.$qs = qs;
 
