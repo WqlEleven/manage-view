@@ -1,16 +1,20 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
 Vue.use(Router);
 
-export default new Router({
+export default new Router({	
     routes: [
         {
             path: '/',
             redirect: '/manageArticle'
         },
+		{
+			path: '/login',
+			component: resolve => require(['../components/page/Login.vue'], resolve)
+		},
         {
             path: '/',
+			name:'home',
             component: resolve => require(['../components/common/Home.vue'], resolve),
             meta: { title: '自述文件' },
             children:[
@@ -21,11 +25,13 @@ export default new Router({
 				},
 				{
 					path: '/manageArticle',
+					name:'manage',
 					component: resolve => require(['../components/page/manageArticle.vue'], resolve),
 					meta: { title: '文章管理' }
 				},
 				{
 					path: '/preview',
+					name:'preview',
 					component: resolve => require(['../components/page/preview.vue'], resolve),
 					meta: { title: '文章预览' }
 				},
@@ -200,13 +206,11 @@ export default new Router({
                 }
             ]
         },
-        {
-            path: '/login',
-            component: resolve => require(['../components/page/Login.vue'], resolve)
-        },
+        
         {
             path: '*',
             redirect: '/404'
         }
-    ]
+    ],
+	//
 })

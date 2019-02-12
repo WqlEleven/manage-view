@@ -36,7 +36,7 @@
 			
 			
 					<!-- 富文本编辑器 -->
-			<!-- <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor> -->
+			 <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor> 
 			<br />
 					<el-row>
 						<router-link to='/preview'>

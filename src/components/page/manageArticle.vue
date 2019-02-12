@@ -36,7 +36,7 @@
 
 <script>
     export default {
-        name: 'manageArticle',
+        name: 'manage',
         data() {
             return {
 								radio: '',
