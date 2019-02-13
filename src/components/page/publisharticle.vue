@@ -119,7 +119,10 @@
                                 //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
                             ).then((res) => {
                                 console.log(res);
-                                if (res.data.code == 0) {
+                                if (res.data.code == -1) {
+                                    this.$message.warning('请登录！');
+                                    this.$router.push('/login');
+                                } else if (res.data.code == 0) {
                                     this.$message.success(res.data.message);
                                     this.$router.push('/manageArticle');
                                 } else {
