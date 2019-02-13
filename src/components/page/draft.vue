@@ -22,7 +22,7 @@
 							
 					</router-link> -->
 					<el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>编辑</el-button>
-					<el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
+					<el-button type="text" icon="el-icon-delete" class="red" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>	
@@ -58,18 +58,37 @@
 				},
         methods: {
 					goedit(art) {
-						console.log(art.id)
 						this.$router.push({
 							path:'/editarticleback',
 							query:{
 								id : art.id
 						}});
 					},
+					//删除
+					handleDelete(article) {
+						this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this.$axios.post('admin/article_delete',this.$qs.stringify({id:article.id}))
+							.then((res)=>{
+								if(res.data.code === 0){
+									this.$message.success(res.data.message);
+									this.getArticle()
+								}
+							})
+							.catch((err)=>{
+								console.log(err)
+							})
+						}).catch(() => {
+							this.$message.info('已取消删除');
+						});
+					},
             // 分页
             handleCurrentChange(val) {
             	this.page = val;
             	console.log(`当前页: ${val}`);
-            	console.log(this.page)
             	this.getArticle();
             },
             // 获取文章列表
@@ -82,7 +101,6 @@
             			this.$message.warning('请登录！');
             			this.$router.push('/login');
             		} else if (res.data.code == 0) {
-            			console.log(res)
             			this.tableData = res.data.data.list;
             			this.total = res.data.data.count;
             			this.per_page = res.data.data.per_page;
