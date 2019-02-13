@@ -38,7 +38,7 @@
                         </router-link> &nbsp;
                         <el-button type="primary" @click="onSubmit('publish')" icon="el-icon-check" round>发布</el-button>
                         <el-button type="primary" @click="onSubmit('draft')" icon="el-icon-back" round>存入草稿箱</el-button>
-                        <el-button type="primary" @click="onSubmit('delete')" icon="el-icon-delete" round>删除</el-button>
+                        <el-button type="primary" @click="onReset()" icon="el-icon-delete" round>删除</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
@@ -111,35 +111,35 @@
             onSubmit(type) {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        console.log(this.form.content);
-                        if (type == 'publish') {
-                            this.$axios.post(
-                                'admin/article_add',
-                                this.$qs.stringify(this.form),
-                                //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-                            ).then((res) => {
-                                console.log(res);
-                                if (res.data.code == -1) {
-                                    this.$message.warning('请登录！');
-                                    this.$router.push('/login');
-                                } else if (res.data.code == 0) {
-                                    this.$message.success(res.data.message);
-                                    this.$router.push('/manageArticle');
-                                } else {
-                                    console.log(res.data.message);
-                                    this.$message.warning(res.data.message);
-                                }
-                            }).catch((res) => {
-                                console.log(res);
-                            });
-                        } else {
-                            this.$message.success('提交成功！');
-                        }
+                        //console.log(this.form.content);
+                        this.form.type = type;
+                        this.$axios.post(
+                            'admin/article_add',
+                            this.$qs.stringify(this.form),
+                            //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+                        ).then((res) => {
+                            //console.log(res);
+                            if (res.data.code == -1) {
+                                this.$message.warning('请登录！');
+                                this.$router.push('/login');
+                            } else if (res.data.code == 0) {
+                                this.$message.success(res.data.message);
+                                this.$router.push('/manageArticle');
+                            } else {
+                                //console.log(res.data.message);
+                                this.$message.warning(res.data.message);
+                            }
+                        }).catch((res) => {
+                            console.log(res);
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
+            },
+            onReset() {
+                this.$refs['form'].resetFields();
             }
         }
     }
