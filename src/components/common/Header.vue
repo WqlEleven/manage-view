@@ -36,7 +36,7 @@
                         <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>
-                        <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
+                        <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -45,6 +45,7 @@
 </template>
 <script>
     import bus from '../common/bus';
+
     export default {
         data() {
             return {
@@ -54,27 +55,38 @@
                 message: 2
             }
         },
-        computed:{
-            username(){
+        computed: {
+            username() {
                 let username = localStorage.getItem('ms_username');
                 return username ? username : this.name;
             }
         },
-        methods:{
+        methods: {
             // 用户名下拉菜单选择事件
             handleCommand(command) {
-                if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
-                    this.$router.push('/login');
+                if (command == 'loginout') {
+                    this.$axios.post(
+                        'admin/logout',
+                        this.$qs.stringify(this.ruleForm)
+                    ).then((res) => {
+                        if (res.data.code == 0) {
+                            localStorage.removeItem('ms_username')
+                            this.$router.push('/login');
+                        } else {
+                            this.$message.warning(res.data.message);
+                        }
+                    }).catch((res) => {
+                        console.log(res);
+                    });
                 }
             },
             // 侧边栏折叠
-            collapseChage(){
+            collapseChage() {
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
             },
             // 全屏事件
-            handleFullScreen(){
+            handleFullScreen() {
                 let element = document.documentElement;
                 if (this.fullscreen) {
                     if (document.exitFullscreen) {
@@ -101,8 +113,8 @@
                 this.fullscreen = !this.fullscreen;
             }
         },
-        mounted(){
-            if(document.body.clientWidth < 1500){
+        mounted() {
+            if (document.body.clientWidth < 1500) {
                 this.collapseChage();
             }
         }
@@ -117,32 +129,38 @@
         font-size: 22px;
         color: #fff;
     }
-    .collapse-btn{
+
+    .collapse-btn {
         float: left;
         padding: 0 21px;
         cursor: pointer;
         line-height: 70px;
     }
-    .header .logo{
+
+    .header .logo {
         float: left;
-        width:250px;
+        width: 250px;
         line-height: 70px;
     }
-    .header-right{
+
+    .header-right {
         float: right;
         padding-right: 50px;
     }
-    .header-user-con{
+
+    .header-user-con {
         display: flex;
         height: 70px;
         align-items: center;
     }
-    .btn-fullscreen{
+
+    .btn-fullscreen {
         transform: rotate(45deg);
         margin-right: 5px;
         font-size: 24px;
     }
-    .btn-bell, .btn-fullscreen{
+
+    .btn-bell, .btn-fullscreen {
         position: relative;
         width: 30px;
         height: 30px;
@@ -150,7 +168,8 @@
         border-radius: 15px;
         cursor: pointer;
     }
-    .btn-bell-badge{
+
+    .btn-bell-badge {
         position: absolute;
         right: 0;
         top: -2px;
@@ -160,26 +179,32 @@
         background: #f56c6c;
         color: #fff;
     }
-    .btn-bell .el-icon-bell{
+
+    .btn-bell .el-icon-bell {
         color: #fff;
     }
-    .user-name{
+
+    .user-name {
         margin-left: 10px;
     }
-    .user-avator{
+
+    .user-avator {
         margin-left: 20px;
     }
-    .user-avator img{
+
+    .user-avator img {
         display: block;
-        width:40px;
-        height:40px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
     }
-    .el-dropdown-link{
+
+    .el-dropdown-link {
         color: #fff;
         cursor: pointer;
     }
-    .el-dropdown-menu__item{
+
+    .el-dropdown-menu__item {
         text-align: center;
     }
 </style>
