@@ -20,77 +20,85 @@
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
 
-                   <!-- <router-link to='/editarticle'>
-                        <el-button type="text" icon="el-icon-edit">编辑</el-button>
-                    </router-link> -->
-										<el-button type="text" icon="el-icon-edit" @click='efit(scope.row)'>编辑</el-button>
+                    <!-- <router-link to='/editarticle'>
+                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
+                     </router-link> -->
+                    <el-button type="text" icon="el-icon-edit" @click='efit(scope.row)'>编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <!-- 分页 -->
-				<div class="pagination">
-					<el-pagination
-						@size-change="handleSizeChange"
-						@current-change="handleCurrentChange"
-						:current-page="page"
-						:page-size="per_page"
-						layout="prev, pager, next, jumper"
-						:total="total">
-					</el-pagination>
-					
-			</div>
-       <!-- <div class="pagination">
-            <el-pagination background @current-change="handleCurrentChange" 
-			layout="prev, pager, next" :total="1000">
+        <div class="pagination">
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="page"
+                    :page-size="per_page"
+                    layout="prev, pager, next, jumper"
+                    :total="total">
             </el-pagination>
-        </div> -->
+
+        </div>
+        <!-- <div class="pagination">
+             <el-pagination background @current-change="handleCurrentChange"
+             layout="prev, pager, next" :total="1000">
+             </el-pagination>
+         </div> -->
     </div>
 </template>
 
 <script>
     export default {
         name: 'manage',
-				
+
         data() {
             return {
-              radio: '',
-							page:1,
-							total:0,
-							per_page:0,
+                radio: '',
+                page: 1,
+                total: 0,
+                per_page: 0,
                 tableData: []
             }
         },
-		created(){
-			this.getArticle();
-		},
-    methods: {
-			efit(art){
-				console.log(art)
-			},
-					// 分页
-				handleSizeChange(val) {
-					console.log(`每页 ${val} 条`);
-				},
-				handleCurrentChange(val) {
-					this.page = val;				
-					console.log(`当前页: ${val}`);
-					console.log(this.page)
-					this.getArticle();
-				},
-			//获取文章列表
-			getArticle(){
-				this.$axios.post('admin/article_list',this.$qs.stringify(this.page))
-				.then((res)=>{
-					console.log(res);
-					console.log(this.page)
-					this.tableData = res.data.data.list;
-					this.total = res.data.data.count;
-					this.per_page = res.data.data.per_page;
-				})
-				.catch((err)=>{
-					console.log(err)
-				})
-			},
+        created() {
+            this.getArticle();
+        },
+        methods: {
+            efit(art) {
+                console.log(art)
+            },
+            // 分页
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                this.page = val;
+                console.log(`当前页: ${val}`);
+                console.log(this.page)
+                this.getArticle();
+            },
+            //获取文章列表
+            getArticle() {
+                this.$axios.post(
+                    'admin/article_list',
+                    this.$qs.stringify({page:this.page})
+                ).then((res) => {
+                    console.log(res);
+                    console.log(this.page)
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        this.tableData = res.data.data.list;
+                        this.total = res.data.data.count;
+                        this.per_page = res.data.data.per_page;
+                    } else {
+                        this.$message.warning(res.data.message);
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                })
+            },
             // 分页导航
 //             handleCurrentChange(val) {
 //                 this.cur_page = val;
