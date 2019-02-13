@@ -1,4 +1,5 @@
 <template>
+    <div>
         <div class="container">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item prop="title" label="标题">
@@ -43,6 +44,7 @@
                 </el-form-item>
             </el-form>
         </div>
+    </div>
 </template>
 
 <script>
