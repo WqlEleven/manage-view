@@ -106,10 +106,9 @@
 								this.form.title = res.data.data.info.title;
 								this.form.category_id = res.data.data.info.category_id;
 								this.form.tag = res.data.data.info.tag;
-								this.form.picture = this.pictureUrl;
 								this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
-								this.form.content = res.data.data.info.content;
-								console.log(this.form.picture)
+								this.form.picture = res.data.data.info.picture;
+								this.form.content = res.data.data.info.content;	
 							}
 						})
 						.catch((err)=>{
@@ -117,7 +116,6 @@
 						})
 					},
             handlePictureSuccess(res, file) {
-                console.log(res)
                 if (res.code == 0) {
                     this.form.picture = res.data.file;
                     this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.file;
