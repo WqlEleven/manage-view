@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div class="container">
             <el-form :model="form" :rules="rules" ref="form" label-width="80px">
                 <el-form-item prop="title" label="标题">
@@ -21,7 +20,8 @@
                             action="http://guanjia.applinzi.com/admin/upload_image"
                             :show-file-list="false"
                             :on-success="handlePictureSuccess"
-                            :before-upload="beforePictureUpload">
+                            :before-upload="beforePictureUpload"
+					>
                         <img v-if="pictureUrl" :src="pictureUrl" class="picture">
                         <i v-else class="el-icon-plus picture-uploader-icon"></i>
                     </el-upload>
@@ -43,7 +43,6 @@
                 </el-form-item>
             </el-form>
         </div>
-    </div>
 </template>
 
 <script>
@@ -56,11 +55,12 @@
         name: 'editor',
         data: function () {
             return {
-								id:'',
                 form: {
+					id:'',
                     title: '',
                     picture: '',
                     content: '',
+					category_id:''
                 },
                 rules: {
                     title: [
@@ -85,17 +85,30 @@
         components: {
             quillEditor
         },
-				created(){
-					this.getArtMsg();
-				},
+		created(){			
+			this.getArtMsg();
+		},
         methods: {
-					//获取文章信息
-					getArtMsg(){
-						this.id = localStorage.getItem('id');
-						console.log(this.id);
-						this.$axios.post('admin/article_edit',this.$qs.stringify({id:this.id}))
-						.then((res)=>{
-							console.log(res)
+			//获取文章信息
+			getArtMsg(){
+						this.form.id = this.$route.query.id;					
+						this.$axios.post('admin/article_info',this.$qs.stringify({id:this.form.id}))
+						.then((res)=>{				
+							if(res.data.code == -1){
+								this.$message.warning('请登录！');
+								this.$router.push('/login');
+							}else if(res.data.code == 0){
+								//写逻辑
+								console.log(res)
+								this.form.id =  res.data.data.info.id;
+								this.form.title = res.data.data.info.title;
+								this.form.category_id = res.data.data.info.category_id;
+								this.form.tag = res.data.data.info.tag;
+								this.form.picture = this.pictureUrl;
+								this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+								this.form.content = res.data.data.info.content;
+								console.log(this.form.picture)
+							}
 						})
 						.catch((err)=>{
 							console.log(err)
@@ -104,7 +117,6 @@
             handlePictureSuccess(res, file) {
                 console.log(res)
                 if (res.code == 0) {
-                    //this.form.picture = URL.createObjectURL(file.raw);
                     this.form.picture = res.data.file;
                     this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.file;
                 }
@@ -126,32 +138,23 @@
             },
             onSubmit(type) {
                 this.$refs['form'].validate((valid) => {
-                    if (valid) {
-                        console.log(this.form.content);
-                        if (type == 'publish') {
-                            this.$axios.post(
-                                'admin/article_add',
-                                this.$qs.stringify(this.form),
-                                //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-                            ).then((res) => {
-                                console.log(res);
-                                if (res.data.code == 0) {
-                                    this.$message.success(res.data.message);
-                                    this.$router.push('/manageArticle');
-                                } else {
-                                    console.log(res.data.message);
-                                    this.$message.warning(res.data.message);
-                                }
-                            }).catch((res) => {
-                                console.log(res);
-                            });
-                        } else {
-                            this.$message.success('提交成功！');
-                        }
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
+					if(type == 'publish'){
+						this.$axios.post('admin/article_edit',this.$qs.stringify(this.form))
+						.then((res)=>{
+							console.log(res)
+							if (res.data.code == 0) {
+								console.log(this.form.picture)
+							    this.$message.success(res.data.message);
+							    this.$router.push('/manageArticle');
+							} else {
+							    console.log(res.data.message);
+							    this.$message.warning(res.data.message);
+							}
+						})
+						.catch((err)=>{
+							console.log(err)
+						})
+					}
                 });
             }
         }
@@ -180,8 +183,8 @@
     }
 
     .picture {
-        width: 178px;
+        width: 357px;
         height: 178px;
         display: block;
-    }
+    } 
 </style>

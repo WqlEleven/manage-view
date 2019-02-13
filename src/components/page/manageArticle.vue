@@ -11,9 +11,10 @@
         </div>
 
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="add_time" label="时间" width="200" align="center"></el-table-column>
-            <el-table-column prop="title" label="产品推广标题" style="width: 20%" align="center"></el-table-column>
-            <el-table-column prop="click" label="转发人数/查看人数" width="250" align="center"></el-table-column>
+			<el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+			<el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
+            <el-table-column prop="click" label="转发人数/查看人数" width="150" align="center"></el-table-column>
+            <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>         
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
                     <router-link to='/preview'>
@@ -23,14 +24,13 @@
                     <!-- <router-link to='/editarticle'>
                          <el-button type="text" icon="el-icon-edit">编辑</el-button>
                      </router-link> -->
-                    <el-button type="text" icon="el-icon-edit" @click='efit(scope.row)'>编辑</el-button>
+                    <el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
         <!-- 分页 -->
         <div class="pagination">
             <el-pagination
-                    @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="page"
                     :page-size="per_page"
@@ -64,14 +64,14 @@
             this.getArticle();
         },
         methods: {
-            efit(art) {
-                localStorage.setItem('id',art.id);
-				this.$router.push('/editarticle');
+            goedit(art) {
+				this.$router.push({
+					path:'/editarticleback',
+					query:{
+						id : art.id
+                }});
             },
             // 分页
-            handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
-            },
             handleCurrentChange(val) {
                 this.page = val;
                 console.log(`当前页: ${val}`);
@@ -84,8 +84,6 @@
                     'admin/article_list',
                     this.$qs.stringify({page:this.page})
                 ).then((res) => {
-                    console.log(res);
-                    console.log(this.page)
                     if (res.data.code == -1) {
                         this.$message.warning('请登录！');
                         this.$router.push('/login');
@@ -99,12 +97,7 @@
                 }).catch((err) => {
                     console.log(err)
                 })
-            },
-            // 分页导航
-//             handleCurrentChange(val) {
-//                 this.cur_page = val;
-//                 this.getData();
-//             }
+            }
         }
     }
 

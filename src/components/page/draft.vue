@@ -12,22 +12,31 @@
 		</div>
 		<!-- 表格 -->
 		<el-table :data="tableData" border style="width: 100%">
-			<el-table-column prop="p_datatime" label="时间" width="200" align="center"></el-table-column>
-			<el-table-column prop="p_title" label="产品推广标题" width="600" align="center"></el-table-column>
-			<el-table-column label="操作" style="width: 5%" align="center">
+			<el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+			<el-table-column prop="title" label="产品推广标题" width="350" align="center"></el-table-column>
+			<el-table-column prop="click" label="阅读人数/分享数量" width="200" align="center"></el-table-column>
+			<el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>
+			<el-table-column label="操作" style="width: 10%" align="center">
 				<template slot-scope="scope">
-					<router-link to='/editarticle'>
-						<el-button type="text" icon="el-icon-edit">编辑</el-button>	
-					</router-link>
+				<!-- 	<router-link to='/editarticle'>
+							
+					</router-link> -->
+					<el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>编辑</el-button>
 					<el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>	
     <!-- 分页 -->
-    <div class="pagination">
-      <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-        </el-pagination>
-     </div>
+    		<div class="pagination">
+    			<el-pagination
+    					@current-change="handleCurrentChange"
+    					:current-page="page"
+    					:page-size="per_page"
+    					layout="prev, pager, next, jumper"
+    					:total="total">
+    			</el-pagination>
+    
+    		</div>
   </div>
 </template>
 
@@ -36,22 +45,53 @@
         name: 'draft',
         data() {
             return {
+							is_publish:0,
 							radio: '2',
-							tableData: [{
-									p_datatime:'2019/01/28   11:08:00',
-									p_title: '产品推广标题'
-									},{
-									p_datatime:'2019/01/28   11:08:00',
-									p_title: '产品推广标题'
-									},
-							]
+							page:1,
+							total: 0,
+							per_page: 0,
+							tableData: []
             }
         },
+				created() {
+					this.getArticle();
+				},
         methods: {
-            // 分页导航
+					goedit(art) {
+						console.log(art.id)
+						this.$router.push({
+							path:'/editarticleback',
+							query:{
+								id : art.id
+						}});
+					},
+            // 分页
             handleCurrentChange(val) {
-                this.cur_page = val;
-                this.getData();
+            	this.page = val;
+            	console.log(`当前页: ${val}`);
+            	console.log(this.page)
+            	this.getArticle();
+            },
+            // 获取文章列表
+            getArticle() {
+            	this.$axios.post(
+            		'admin/article_list',
+            		this.$qs.stringify({page:this.page,is_publish:this.is_publish})
+            	).then((res) => {
+            		if (res.data.code == -1) {
+            			this.$message.warning('请登录！');
+            			this.$router.push('/login');
+            		} else if (res.data.code == 0) {
+            			console.log(res)
+            			this.tableData = res.data.data.list;
+            			this.total = res.data.data.count;
+            			this.per_page = res.data.data.per_page;
+            		} else {
+            			this.$message.warning(res.data.message);
+            		}
+            	}).catch((err) => {
+            		console.log(err)
+            	})
             }
 				}
     }
