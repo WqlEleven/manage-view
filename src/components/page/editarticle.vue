@@ -39,7 +39,7 @@
                         </router-link> &nbsp;
                         <el-button type="primary" @click="onSubmit('publish')" icon="el-icon-check" round>发布</el-button>
                         <el-button type="primary" @click="onSubmit('draft')" icon="el-icon-back" round>存入草稿箱</el-button>
-                        <el-button type="primary" @click="onSubmit('delete')" icon="el-icon-delete" round>删除</el-button>
+                        <el-button type="primary" @click="onReset()" icon="el-icon-delete" round>删除</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
@@ -58,6 +58,7 @@
         data: function () {
             return {
                 form: {
+					type:'',
 					id:'',
                     title: '',
                     picture: '',
@@ -101,7 +102,6 @@
 								this.$router.push('/login');
 							}else if(res.data.code == 0){
 								//写逻辑
-								console.log(res)
 								this.form.id =  res.data.data.info.id;
 								this.form.title = res.data.data.info.title;
 								this.form.category_id = res.data.data.info.category_id;
@@ -138,23 +138,59 @@
             },
             onSubmit(type) {
                 this.$refs['form'].validate((valid) => {
-					if(type == 'publish'){
-						this.$axios.post('admin/article_edit',this.$qs.stringify(this.form))
-						.then((res)=>{
-							console.log(res)
-							if (res.data.code == 0) {
-								console.log(this.form.picture)
-							    this.$message.success(res.data.message);
-							    this.$router.push('/manageArticle');
+					if (valid) {
+						this.form.type = type;
+						this.$axios.post(
+							'admin/article_edit',
+							this.$qs.stringify(this.form),
+						).then((res) => {
+							//console.log(res);
+							if (res.data.code == -1) {
+								this.$message.warning('请登录！');
+								this.$router.push('/login');
+							} else if (res.data.code == 0) {
+								console.log(res);
+								this.$message.success(res.data.message);
+								this.$router.push('/manageArticle');
 							} else {
-							    console.log(res.data.message);
-							    this.$message.warning(res.data.message);
+								//console.log(res.data.message);
+								this.$message.warning(res.data.message);
 							}
-						})
-						.catch((err)=>{
-							console.log(err)
-						})
-					}
+						}).catch((res) => {
+							console.log(res);
+						});
+					} else {
+						console.log('error submit!!');
+						return false;
+					}				 					
+// 					//发布
+// 					if(type == 'publish'){
+// 						this.$axios.post('admin/article_edit',this.$qs.stringify(this.form))
+// 						.then((res)=>{
+// 							console.log(res)
+// 							if (res.data.code == 0) {
+// 								console.log(this.form.picture)
+// 							    this.$message.success(res.data.message);
+// 							    this.$router.push('/manageArticle');
+// 							} else {
+// 							    console.log(res.data.message);
+// 							    this.$message.warning(res.data.message);
+// 							}
+// 						})
+// 						.catch((err)=>{
+// 							console.log(err)
+// 						})
+// 					}
+// 					//存入草稿箱
+// 					if(type == 'draft'){
+// 						this.$axios.post('admin/article_add',this.$qs.stringify(this.form))
+// 						.then((res)=>{
+// 							console.log(res)
+// 						})
+// 						.catch((err)=>{
+// 							console.log(err)
+// 						})
+// 					}
                 });
             }
         }

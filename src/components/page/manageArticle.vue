@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+		<!-- 表单 -->
+		
+		<!-- 状态 -->
         <div class="handle-box">
             状态：
             <router-link to='/published'>
