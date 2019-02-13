@@ -65,7 +65,8 @@
         },
         methods: {
             efit(art) {
-                console.log(art)
+                localStorage.setItem('id',art.id);
+				this.$router.push('/editarticle');
             },
             // 分页
             handleSizeChange(val) {
