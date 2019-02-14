@@ -9,9 +9,9 @@
 			<!-- 表格 -->
 			 <el-table :data="tableData" border style="width: 100%">
 				 <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
-				<el-table-column prop="name" label="名称" width="200" align="center"></el-table-column>
+				<el-table-column prop="name" label="名称" width="300" align="center"></el-table-column>
 				<el-table-column prop="code" label="代码" width="300" align="center"></el-table-column>
-				<el-table-column label="操作" width="300" align="center">
+				<el-table-column label="操作" style="width: 30%" align="center">
 					<template slot-scope="scope">
 						<el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>修改</el-button>	
 						<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.row)">删除</el-button>
@@ -49,7 +49,7 @@
 		created() {
 			this.getList();
 		},
-        methods: {	
+    methods: {	
 			//跳转编辑页
 			goedit(art) {
 				this.$router.push({
@@ -66,7 +66,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.$axios.post('admin/article_delete',this.$qs.stringify({id:text.id}))
+					this.$axios.post('admin/authority_delete',this.$qs.stringify({id:text.id}))
 					.then((res)=>{
 						console.log(res)
 						if(res.data.code === 0){

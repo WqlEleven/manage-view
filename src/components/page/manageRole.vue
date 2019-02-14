@@ -13,10 +13,11 @@
 				<el-table-column prop="add_time" label="创建时间" width="180" align="center"></el-table-column>
 				<el-table-column label="操作" width="200" align="center">
 					<template slot-scope="scope">
-						<router-link to='/amend'>
-							<el-button type="text" icon="el-icon-edit">修改</el-button>	
-						</router-link>
-						<el-button type="text" icon="el-icon-delete" class="red">删除</el-button>
+						<el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>修改</el-button>
+						<!-- <router-link to='/amend'>
+								
+						</router-link> -->
+						<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			 </el-table>
@@ -49,6 +50,41 @@
 					this.getRole();
 				},
         methods: {
+					//跳转编辑页
+					goedit(art) {
+						this.$router.push({
+							path:'/editroleback',
+							query:{
+								id : art.id
+						}});
+					},
+					//删除
+					handleDelete(text){
+						// console.log(text.id)
+						this.$confirm('是否删除?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this.$axios.post('admin/role_delete',this.$qs.stringify({id:text.id}))
+							.then((res)=>{
+								console.log(res)
+								if(res.data.code === 0){
+									this.$message.success(res.data.message);
+									this.getList();
+								}else if(res.data.code === -1){
+									this.$message.warning('请登录！');
+									this.$router.push('/login');
+								}
+							})
+							.catch((err)=>{
+								console.log(err)
+							})
+						}).catch(() => {
+							this.$message.info('已取消删除');
+						});
+					},
+					
 					formatRole: function(row, column) {
 						return row.name == '1' ? "普通用户" : row.name == '2' ? "系统管理员" :"aa";
 					},

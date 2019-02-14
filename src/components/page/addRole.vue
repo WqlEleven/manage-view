@@ -34,6 +34,7 @@
         name: 'amend',
         data: function(){
             return {
+							page: 1,
 							form: {
 								name: '',
 								describe: '',
@@ -41,7 +42,35 @@
 							}
             }
         },
+				created() {
+					this.getauthority();
+				},
         methods: {
+					//动态获取权限列表
+					getauthority(){
+						this.$axios.post(
+							'admin/authority_all'
+						).then((res) => {
+							if (res.data.code == -1) {
+								this.$message.warning('请登录！');
+								this.$router.push('/login');
+							} else if (res.data.code == 0) {
+								console.log(res)
+								const arr = res.data.data.list;
+								// console.log(arr)
+								const name = [];
+								for(var i = 0;i<arr.length;i++){
+									name[name.length] = arr[i].name
+								}
+								console.log(name)
+							} else {
+								this.$message.warning(res.data.message);
+							}
+						}).catch((err) => {
+							console.log(err)
+						})
+					},
+					//新增角色
 					addRole() {
 						this.$axios.post(
 							'admin/role_add',
