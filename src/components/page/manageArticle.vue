@@ -29,6 +29,7 @@
 
         <el-table :data="tableData" border style="width: 100%">
 			<el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+			<el-table-column prop="category_name" label="分类" width="100" align="center"></el-table-column>
 			<el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
             <el-table-column prop="click" label="转发人数/查看人数" width="150" align="center"></el-table-column>
             <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>         
@@ -37,10 +38,6 @@
                     <router-link to='/preview'>
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
-
-                    <!-- <router-link to='/editarticle'>
-                         <el-button type="text" icon="el-icon-edit">编辑</el-button>
-                     </router-link> -->
                     <el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>编辑</el-button>
                 </template>
             </el-table-column>
@@ -103,6 +100,7 @@
                         this.$message.warning('请登录！');
                         this.$router.push('/login');
                     } else if (res.data.code == 0) {
+						console.log(res)
                         this.tableData = res.data.data.list;
                         this.total = res.data.data.count;
                         this.per_page = res.data.data.per_page;

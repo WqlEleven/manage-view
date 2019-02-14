@@ -11,10 +11,11 @@
 		</div>
 		<el-table :data="tableData" border style="width: 100%">
 			<el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
-			<el-table-column prop="title" label="产品推广标题" width="350" align="center"></el-table-column>
-			<el-table-column prop="click" label="阅读人数/分享数量" width="200" align="center"></el-table-column>
+			<el-table-column prop="category_name" label="分类" width="100" align="center"></el-table-column>
+			<el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
+			<el-table-column prop="click" label="阅读人数/分享数量" width="150" align="center"></el-table-column>
 			<el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>
-			<el-table-column label="操作" style="width: 10%" align="center">
+			<el-table-column label="操作" width="200" align="center">
 				<template slot-scope="scope">
 					<router-link to='/preview'>
 						<el-button type="text" icon="el-icon-search">查看</el-button>

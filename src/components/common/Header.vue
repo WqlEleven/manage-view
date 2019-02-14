@@ -30,9 +30,10 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-						<router-link to='/editpwd'>
+						<!-- <router-link to='/editpwd'>
 							<el-dropdown-item>修改密码</el-dropdown-item>
-						</router-link>
+						</router-link> -->
+						<el-dropdown-item divided command="editpwd">修改密码</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -76,6 +77,9 @@
                         console.log(res);
                     });
                 }
+				if(command == 'editpwd'){
+					this.$router.push('/editpwd');
+				}
             },
             // 侧边栏折叠
             collapseChage() {
