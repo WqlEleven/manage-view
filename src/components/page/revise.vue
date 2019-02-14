@@ -77,6 +77,11 @@
 							cancelButtonText: '取消',
 							type: 'warning'
 						}).then(() => {
+							if(this.form.status == true){
+								this.form.status = 1
+							}else if(this.form.status == false){
+								this.form.status = 0
+							}						
 							this.$axios.post('admin/admin_edit',this.$qs.stringify(this.form))
 							.then((res)=>{
 								if (res.data.code == -1) {
@@ -84,6 +89,7 @@
 									this.$router.push('/login');
 								} else if (res.data.code == 0) {
 									console.log(res);
+									console.log(this.form.status)
 									this.$message.success(res.data.message);
 									this.$router.push('/manageUser');
 								} else {
@@ -117,6 +123,11 @@
 							}else if(res.data.code == 0){
 								//写逻辑
 								this.form =  res.data.data.info;
+								if(res.data.data.info.status == 1){
+									this.form.status = true
+								}else if(res.data.data.info.status == 0){
+									this.form.status = false
+								}
 								this.form.password = ''
 								const last_time = document.getElementById('last_time');
 								last_time.innerText =  res.data.data.info.last_time
