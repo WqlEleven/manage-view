@@ -38,7 +38,7 @@
                         </router-link> &nbsp;
                         <el-button type="primary" @click="onSubmit('publish')" icon="el-icon-check" round>发布</el-button>
                         <el-button type="primary" @click="onSubmit('draft')" icon="el-icon-back" round>存入草稿箱</el-button>
-                        <el-button type="primary" @click="onReset()" icon="el-icon-delete" round>删除</el-button>
+                        <el-button type="danger" @click="onReset()" icon="el-icon-delete" round>清空</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
