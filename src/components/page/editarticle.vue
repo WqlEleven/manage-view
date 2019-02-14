@@ -179,6 +179,9 @@
 						if(res.data.code === 0){
 							this.$message.success(res.data.message);
 							this.$router.push('/')
+						}else if(res.data.code === -1){
+							this.$message.warning('请登录！');
+							this.$router.push('/login');
 						}
 					})
 					.catch((err)=>{

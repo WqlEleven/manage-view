@@ -81,10 +81,18 @@
 					'admin/article_list',
 					this.$qs.stringify({keywords:this.form.keywords,category_id:this.form.category_id}))
 					.then((res)=>{
-						// console.log(res)
-						this.tableData = res.data.data.list;
-						this.total = res.data.data.count;
-						this.per_page = res.data.data.per_page;
+						if (res.data.code == -1) {
+							this.$message.warning('请登录！');
+							this.$router.push('/login');
+						} else if (res.data.code == 0) {
+					 						console.log(res)
+					 						this.tableData = res.data.data.list;
+											this.total = res.data.data.count;
+											this.per_page = res.data.data.per_page;
+						} else {
+							this.$message.warning(res.data.message);
+						}
+
 					})
 					.catch((err)=>{
 						console.log(err)

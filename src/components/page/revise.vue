@@ -24,7 +24,7 @@
 					<el-input v-model="form.password"></el-input>
 				</el-form-item>
 				<el-form-item label="启用/禁用:">
-					<el-switch v-model="form.status"></el-switch>
+					<el-switch v-model="form.status" :on-value="100" :off-value="0"></el-switch>
 				 </el-form-item>
 				<el-form-item label="录入人员:">
 					<span id="person"></span>
@@ -40,7 +40,7 @@
 				</el-form-item>
 				
 				<el-form-item>
-					<el-button type="primary" round @click="open2">确认修改</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+					<el-button type="primary" round @click="handleedit()">&nbsp;修&nbsp;&nbsp;&nbsp;改&nbsp;</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 					<router-link to='/manageUser'>
 						<el-button type="primary" round>&nbsp;返&nbsp;&nbsp;&nbsp;回&nbsp;</el-button>
 					</router-link>
@@ -62,7 +62,7 @@
 								mobile: '',
 								role_id: '',
 								password:'',
-								status:true
+								status:''
             	}
             }
         },
@@ -70,6 +70,41 @@
             this.getUser();
         },
         methods: {
+					//处理修改
+					handleedit(){
+						this.$confirm('此操作将修改用户信息, 是否继续?', '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+						}).then(() => {
+							this.$axios.post('admin/admin_edit',this.$qs.stringify(this.form))
+							.then((res)=>{
+								if (res.data.code == -1) {
+									this.$message.warning('请登录！');
+									this.$router.push('/login');
+								} else if (res.data.code == 0) {
+									console.log(res);
+									this.$message.success(res.data.message);
+									this.$router.push('/manageUser');
+								} else {
+									//console.log(res.data.message);
+									this.$message.warning(res.data.message);
+								}
+							})
+							.catch((err)=>{
+								console.log(err)
+							})
+// 							this.$message({
+// 								type: 'success',
+// 								message: '删除成功!'
+// 							});
+						}).catch(() => {
+							this.$message({
+								type: 'info',
+								message: '已取消删除'
+							});          
+						});
+					},
 					//获取用户详细信息
 					getUser(){
 						this.form.id = this.$route.query.id;					
@@ -85,30 +120,18 @@
 								this.form.password = ''
 								const last_time = document.getElementById('last_time');
 								last_time.innerText =  res.data.data.info.last_time
+								const add_time = document.getElementById('add_time');
+								add_time.innerText =  res.data.data.info.add_time
+								const person = document.getElementById('person');
+								person.innerText =  res.data.data.info.person
+								const ip = document.getElementById('ip');
+								ip.innerText =  res.data.data.info.ip
 							}
 						})
 						.catch((err)=>{
 							console.log(err)
 						})
-					},
-					//修改
-			  open2() {
-				this.$confirm('此操作将修改用户信息, 是否继续?', '提示', {
-				  confirmButtonText: '确定',
-				  cancelButtonText: '取消',
-				  type: 'warning'
-				}).then(() => {
-				  this.$message({
-					type: 'success',
-					message: '修改成功!'
-				  });
-				}).catch(() => {
-				  this.$message({
-					type: 'info',
-					message: '已取消修改'
-				  });          
-				});
-        }
+					}
     },
 	}
 </script>
