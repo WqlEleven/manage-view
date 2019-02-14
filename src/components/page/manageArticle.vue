@@ -1,7 +1,21 @@
 <template>
     <div class="container">
 		<!-- 表单 -->
-		
+			<el-form :inline="true" :model="formInline" class="demo-form-inline">
+				<el-form-item label="关键字:">
+				<el-input v-model="formInline.keywords" ></el-input>
+				</el-form-item>
+				<el-form-item label="分类:">
+					<el-select v-model="formInline.classify" placeholder="请选择">
+						<el-option label="原创" value="原创"></el-option>
+						<el-option label="转载" value="转载"></el-option>
+						<el-option label="用户投稿" value="投稿"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary">搜索</el-button>
+				</el-form-item>
+		</el-form> 
 		<!-- 状态 -->
         <div class="handle-box">
             状态：
@@ -42,20 +56,18 @@
             </el-pagination>
 
         </div>
-        <!-- <div class="pagination">
-             <el-pagination background @current-change="handleCurrentChange"
-             layout="prev, pager, next" :total="1000">
-             </el-pagination>
-         </div> -->
     </div>
 </template>
 
 <script>
     export default {
         name: 'manage',
-
         data() {
             return {
+				formInline: {
+					keywords: '',
+					classify: ''
+				},
                 radio: '',
                 page: 1,
                 total: 0,

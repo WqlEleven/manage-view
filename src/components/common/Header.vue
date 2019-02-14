@@ -30,6 +30,9 @@
                         {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
+						<router-link to='/editpwd'>
+							<el-dropdown-item>修改密码</el-dropdown-item>
+						</router-link>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>

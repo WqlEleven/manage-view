@@ -12,6 +12,11 @@ export default new Router({
 			path: '/login',
 			component: resolve => require(['../components/page/Login.vue'], resolve)
 		},
+		
+		{
+			path: '/editpwd',
+			component: resolve => require(['../components/page/editpwd.vue'], resolve)
+		},
 		{
 			path: '/editarticleback',
 			component: resolve => require(['../components/page/editarticleback.vue'], resolve)
