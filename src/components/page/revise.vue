@@ -3,43 +3,40 @@
 		<div class="form-box">
 			<el-form ref="form" :model="form" label-width="130px">
 				<el-form-item label="姓名:">
-					<el-input v-model="form.name"></el-input>
+					<el-input v-model="form.real_name"></el-input>
 				</el-form-item>
 				<el-form-item label="性别:">
-					<el-input v-model="form.sex"></el-input>
+					<el-select v-model="form.sex		" placeholder="请选择">
+					<el-option label="男" value="1"></el-option>
+					<el-option label="女" value="2"></el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="电话:">
-					<el-input v-model="form.tel"></el-input>
+					<el-input v-model="form.mobile	"></el-input>
 				</el-form-item>
 				<el-form-item label="角色:">
-					<el-select v-model="form.actor" placeholder="请选择">
-					<el-option label="用户" value="user"></el-option>
-					<el-option label="管理员" value="admin"></el-option>
+					<el-select v-model="form.role_id		" placeholder="请选择">
+					<el-option label="普通用户" value="1"></el-option>
+					<el-option label="系统管理员" value="2"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="修改密码:">
-					<el-input v-model="form.pwd"></el-input>
+					<el-input v-model="form.password"></el-input>
 				</el-form-item>
-				<el-form-item label="状态:">
-					<el-radio-group v-model="form.state">
-					  <el-radio label="禁用"></el-radio>
-					  <el-radio label="启用"></el-radio>
-					</el-radio-group>
+				<el-form-item label="启用/禁用:">
+					<el-switch v-model="form.status"></el-switch>
 				 </el-form-item>
-				<el-form-item label="录入人员:" class="active">
-					<span>王五</span>
+				<el-form-item label="录入人员:">
+					<span id="person"></span>
 				</el-form-item>
 				<el-form-item label="注册时间:">
-					<span>2019-01-28</span>
-				</el-form-item>
-				<el-form-item label="注册IP:">
-					<span>192.16.0.269</span>
+					<span id="add_time"></span>
 				</el-form-item>
 				<el-form-item label="最后登录IP:">
-					<span>192.16.0.269</span>
+					<span id="ip"></span>
 				</el-form-item>
-				<el-form-item label="注册IP:">
-					<span>2019-01-28    13:26:32</span>
+				<el-form-item label="最后登录时间:">
+					<span id="last_time"></span>
 				</el-form-item>
 				
 				<el-form-item>
@@ -59,16 +56,42 @@
         data: function(){
             return {
             	form: {
-							name: '',
-							sex: '',
-							tel: '',
-							actor: '',
-							pwd:'',
-							state:''
+								id:'',
+								real_name: '',
+								sex: '',
+								mobile: '',
+								role_id: '',
+								password:'',
+								status:true
             	}
             }
         },
+				created() {
+            this.getUser();
+        },
         methods: {
+					//获取用户详细信息
+					getUser(){
+						this.form.id = this.$route.query.id;					
+						this.$axios.post('admin/admin_info',this.$qs.stringify({id:this.form.id}))
+						.then((res)=>{	
+							console.log(res)
+							if(res.data.code == -1){
+								this.$message.warning('请登录！');
+								this.$router.push('/login');
+							}else if(res.data.code == 0){
+								//写逻辑
+								this.form =  res.data.data.info;
+								this.form.password = ''
+								const last_time = document.getElementById('last_time');
+								last_time.innerText =  res.data.data.info.last_time
+							}
+						})
+						.catch((err)=>{
+							console.log(err)
+						})
+					},
+					//修改
 			  open2() {
 				this.$confirm('此操作将修改用户信息, 是否继续?', '提示', {
 				  confirmButtonText: '确定',

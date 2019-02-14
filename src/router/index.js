@@ -16,6 +16,10 @@ export default new Router({
 			path: '/editarticleback',
 			component: resolve => require(['../components/page/editarticleback.vue'], resolve)
 		},
+		{
+			path: '/reviseback',
+			component: resolve => require(['../components/page/reviseback.vue'], resolve)
+		},
         {
             path: '/',
 			name:'home',

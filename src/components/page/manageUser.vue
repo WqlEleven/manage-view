@@ -2,26 +2,24 @@
     <div class="table">
         <div class="container">
 			<!-- 表单 -->
-             <el-form :inline="true" :model="formInline" class="demo-form-inline">
+             <el-form :inline="true" :model="form" class="demo-form-inline">
 							<el-form-item label="姓名:">
-							<el-input v-model="formInline.user" ></el-input>
+							<el-input v-model="form.real_name" ></el-input>
 							</el-form-item>
 							<el-form-item label="手机号:">
-							<el-input v-model="formInline.user" ></el-input>
+							<el-input v-model="form.mobile	" ></el-input>
 							</el-form-item>
-							<!-- <el-form-item label="角色:">
-							<el-input v-model="formInline.user" ></el-input>
-							</el-form-item> -->
 							<el-form-item label="角色:">
-								<el-select v-model="formInline.user" placeholder="请选择">
-									<el-option label="系统管理员" value="admin"></el-option>
-									<el-option label="普通用户" value="user"></el-option>
+								<el-select v-model="form.role_id	" placeholder="请选择">
+									<el-option label="系统管理员" value="2"></el-option>
+									<el-option label="普通用户" value="1"></el-option>
 								</el-select>
 							</el-form-item>
 							<el-form-item>
-							<router-link to='/detail'>
+							<el-button type="primary" @click='handelSearch()'>搜索</el-button>
+							<!-- <router-link to='/detail'>
 								<el-button type="primary">搜索</el-button>
-							</router-link>
+							</router-link> -->
 							</el-form-item>
 					</el-form> 
 				
@@ -31,26 +29,34 @@
 			 <div class="gehang"></div>
 			<!-- 表格 -->
 			 <el-table :data="tableData" border style="width: 100%">
-				<el-table-column prop="num" label="序号" width="50" align="center"></el-table-column>
-				<el-table-column prop="name" label="姓名" width="100" align="center"></el-table-column>
-				<el-table-column prop="sex" label="性别" width="50" align="center"></el-table-column>
-				<el-table-column prop="tel" label="电话" width="180" align="center"></el-table-column>
+				<el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+				<el-table-column prop="real_name" label="姓名" width="100" align="center"></el-table-column>
+				<el-table-column prop="sex" label="性别" width="50" align="center" :formatter="formatSex"></el-table-column>
+				<el-table-column prop="role_id" label="角色" width="150" align="center" :formatter="formatRole"></el-table-column>
+				<el-table-column prop="mobile" label="电话" width="180" align="center"></el-table-column>
 				<el-table-column prop="admin" label="录入人员" width="180" align="center"></el-table-column>
-				<el-table-column prop="lastIp" label="最后登录IP" width="150" align="center"></el-table-column>
-				<el-table-column prop="lastTime" label="最后登录时间" width="200" align="center"></el-table-column>
+				<el-table-column prop="ip" label="最后登录IP" width="150" align="center"></el-table-column>
+				<el-table-column prop="last_time" label="最后登录时间" width="200" align="center"></el-table-column>
 				<el-table-column label="操作" style="width: 10%" align="center">
 					<template slot-scope="scope">
+						<el-button type="text" icon="el-icon-edit" @click="goedit(scope.row)">修改</el-button>
+						<!-- 
 						<router-link to='/revise'>
 							<el-button type="text" icon="el-icon-edit">修改</el-button>	
-						</router-link>
+						</router-link> -->
 					</template>
 				</el-table-column>
 			 </el-table>
 			<!-- 分页 -->
 			<div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
+				<el-pagination
+						@current-change="handleCurrentChange"
+						:current-page="page"
+						:page-size="per_page"
+						layout="prev, pager, next, jumper"
+						:total="total">
+				</el-pagination>
+			</div>
         </div>
     </div>
 </template>
@@ -60,52 +66,80 @@
         name: 'manageUser',
         data() {
             return {
-               formInline: {
-								user: '',
-								region: ''
+               form: {
+								real_name: '',
+								mobile: '',
+								role_id:''
+								
 							},
-				tableData: [{
-					num:'1',
-					name: '王小虎',
-					sex:'男',
-					tel:'18515118888',
-					admin:'张三',
-					lastIp:'198.108.1.1',
-					lastTime:'2019-01-03     09:36:25'
-					},{
-					num:'2',
-					name: '王小虎',
-					sex:'男',
-					tel:'18515118888',
-					admin:'张三',
-					lastIp:'198.108.1.1',
-					lastTime:'2019-01-03     09:36:25'
-					},{
-					num:'3',
-					name: '王小虎',
-					sex:'男',
-					tel:'18515118888',
-					admin:'张三',
-					lastIp:'198.108.1.1',
-					lastTime:'2019-01-03     09:36:25'
-					},{
-					num:'4',
-					name: '王小虎',
-					sex:'男',
-					tel:'18515118888',
-					admin:'张三',
-					lastIp:'198.108.1.1',
-					lastTime:'2019-01-03     09:36:25'
-					}]
-				 
+							page: 1,
+							total: 0,
+							per_page: 0,
+							tableData: []	 
             }
         },
-        methods: {			 
-            // 分页导航
-            handleCurrentChange(val) {
-                this.cur_page = val;
-                this.getData();
-            }
+				created() {
+					this.getUser();
+				},
+        methods: {
+					//去修改
+					goedit(user){
+						this.$router.push({
+							path:'/reviseback',
+							query:{
+								id : user.id
+						}});
+					},
+					//搜索
+					handelSearch(){
+						this.$axios.post(
+							'admin/admin_list',
+							this.$qs.stringify({real_name:this.form.real_name,mobile:this.form.mobile,role_id:this.form.role_id}))
+							.then((res)=>{
+								if(res.data.code === 0){
+									console.log(res)
+								this.tableData = res.data.data.list;
+								this.total = res.data.data.count;
+								this.per_page = res.data.data.per_page;
+								}
+							})
+							.catch((err)=>{
+								console.log(err)
+							})
+					},
+					//性别、角色转换转换
+					formatSex: function(row, column) {
+						return row.sex == '0' ? "未知" : row.sex == '1' ? "男" : row.sex == '2' ? "女": "aaa";
+					},
+					formatRole: function(row, column) {
+						return row.role_id == '1' ? "普通用户" : row.role_id == '2' ? "系统管理员" :"aa";
+					},
+					// 分页
+					handleCurrentChange(val) {
+						this.page = val;
+						this.getArticle();
+					},
+          //获取用户列表
+					 getUser() {
+					 	this.$axios.post(
+					 		'admin/admin_list',
+					 		this.$qs.stringify({page:this.page})
+					 	).then((res) => {
+					 		if (res.data.code == -1) {
+					 			this.$message.warning('请登录！');
+					 			this.$router.push('/login');
+					 		} else if (res.data.code == 0) {
+					 			console.log(res)
+					 			this.tableData = res.data.data.list;
+					 			this.total = res.data.data.count;
+					 			this.per_page = res.data.data.per_page;
+					 		} else {
+					 			this.$message.warning(res.data.message);
+					 		}
+					 	}).catch((err) => {
+					 		console.log(err)
+					 	})
+					 }
         }
     }
 

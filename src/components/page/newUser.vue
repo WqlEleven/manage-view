@@ -20,6 +20,12 @@
 						<el-option label="普通用户" value="user"></el-option>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="用户名:">
+					<el-input v-model="form.username"></el-input>
+				</el-form-item>
+				<el-form-item label="密码:">
+					<el-input v-model="form.pwd"></el-input>
+				</el-form-item>
 			   <el-button type="primary" round @click="finish">&nbsp;&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;&nbsp;</el-button>&nbsp;&nbsp;&nbsp;
 			   <router-link to='/manageUser'>
 					<el-button type="info" round>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;</el-button>
@@ -35,6 +41,8 @@
         data: function(){
             return {
 							form: {
+								username:'',
+								pwd:'',
 								name: '',
 								sex: '',
 								tel: '',
