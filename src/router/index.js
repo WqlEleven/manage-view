@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 
-export default new Router({	
+export default new Router({
     routes: [
         {
             path: '/',
@@ -11,11 +11,6 @@ export default new Router({
 		{
 			path: '/login',
 			component: resolve => require(['../components/page/Login.vue'], resolve)
-		},
-		
-		{
-			path: '/editpwd',
-			component: resolve => require(['../components/page/editpwd.vue'], resolve)
 		},
 		{
 			path: '/editarticleback',
@@ -74,7 +69,6 @@ export default new Router({
 					component: resolve => require(['../components/page/l_editarticle.vue'], resolve),
 					meta: { title: '编辑' }
 				},
-
 				{
 					path: '/recyclebin',
 					component: resolve => require(['../components/page/recyclebin.vue'], resolve),
@@ -156,6 +150,11 @@ export default new Router({
                     meta: { title: 'tab选项卡' }
                 },
                 {
+                    path: '/editpwd',
+                    component: resolve => require(['../components/page/editpwd.vue'], resolve),
+                    meta: { title: '修改密码' }
+                },
+                {
                     path: '/form',
                     component: resolve => require(['../components/page/BaseForm.vue'], resolve),
                     meta: { title: '基本表单' }
@@ -215,7 +214,7 @@ export default new Router({
                 }
             ]
         },
-        
+
         {
             path: '*',
             redirect: '/404'
