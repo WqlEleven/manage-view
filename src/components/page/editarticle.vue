@@ -39,7 +39,7 @@
                         </router-link> &nbsp;
                         <el-button type="primary" @click="onSubmit('publish')" icon="el-icon-check" round>发布</el-button>
                         <el-button type="primary" @click="onSubmit('draft')" icon="el-icon-back" round>存入草稿箱</el-button>
-                        <el-button type="danger" @click="onReset()" icon="el-icon-delete" round>删除</el-button>
+                        <el-button type="danger" @click="handleDelete()" icon="el-icon-delete" round>删除</el-button>
                     </el-row>
                 </el-form-item>
             </el-form>
@@ -163,36 +163,31 @@
 						console.log('error submit!!');
 						return false;
 					}				 					
-// 					//发布
-// 					if(type == 'publish'){
-// 						this.$axios.post('admin/article_edit',this.$qs.stringify(this.form))
-// 						.then((res)=>{
-// 							console.log(res)
-// 							if (res.data.code == 0) {
-// 								console.log(this.form.picture)
-// 							    this.$message.success(res.data.message);
-// 							    this.$router.push('/manageArticle');
-// 							} else {
-// 							    console.log(res.data.message);
-// 							    this.$message.warning(res.data.message);
-// 							}
-// 						})
-// 						.catch((err)=>{
-// 							console.log(err)
-// 						})
-// 					}
-// 					//存入草稿箱
-// 					if(type == 'draft'){
-// 						this.$axios.post('admin/article_add',this.$qs.stringify(this.form))
-// 						.then((res)=>{
-// 							console.log(res)
-// 						})
-// 						.catch((err)=>{
-// 							console.log(err)
-// 						})
-// 					}
                 });
-            }
+            },
+			//删除
+			handleDelete(text){
+				// console.log(this.form.id)
+				this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					this.$axios.post('admin/article_delete',this.$qs.stringify({id:this.form.id}))
+					.then((res)=>{
+						// console.log(res)
+						if(res.data.code === 0){
+							this.$message.success(res.data.message);
+							this.$router.push('/')
+						}
+					})
+					.catch((err)=>{
+						console.log(err)
+					})
+				}).catch(() => {
+					this.$message.info('已取消删除');
+				});
+			}
         }
     }
 </script>

@@ -82,7 +82,7 @@
 					'admin/article_list',
 					this.$qs.stringify({keywords:this.form.keywords,category_id:this.form.category_id}))
 					.then((res)=>{
-						console.log(res)
+						// console.log(res)
 						this.tableData = res.data.data.list;
 						this.total = res.data.data.count;
 						this.per_page = res.data.data.per_page;
@@ -102,8 +102,6 @@
             // 分页
             handleCurrentChange(val) {
                 this.page = val;
-                console.log(`当前页: ${val}`);
-                console.log(this.page)
                 this.getArticle();
             },
             //获取文章列表
@@ -116,7 +114,7 @@
                         this.$message.warning('请登录！');
                         this.$router.push('/login');
                     } else if (res.data.code == 0) {
-						console.log(res)
+						// console.log(res)
                         this.tableData = res.data.data.list;
                         this.total = res.data.data.count;
                         this.per_page = res.data.data.per_page;
