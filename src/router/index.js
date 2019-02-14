@@ -16,6 +16,11 @@ export default new Router({
 			path: '/editarticleback',
 			component: resolve => require(['../components/page/editarticleback.vue'], resolve)
 		},
+		
+		{
+			path: '/editpowerback',
+			component: resolve => require(['../components/page/editpowerback.vue'], resolve)
+		},
 		{
 			path: '/reviseback',
 			component: resolve => require(['../components/page/reviseback.vue'], resolve)
@@ -114,9 +119,26 @@ export default new Router({
 					meta: { title: '角色管理' }
 				},
 				{
+					path: '/managePower',
+					component: resolve => require(['../components/page/managePower.vue'], resolve),
+					meta: { title: '权限管理' }
+				},
+				{
 					path: '/addRole',
 					component: resolve => require(['../components/page/addRole.vue'], resolve),
 					meta: { title: '新增角色' }
+				},
+				
+				{
+					path: '/addDescribe',
+					component: resolve => require(['../components/page/addDescribe.vue'], resolve),
+					meta: { title: '新增权限' }
+				},
+				
+				{
+					path: '/editPower',
+					component: resolve => require(['../components/page/editPower.vue'], resolve),
+					meta: { title: '修改权限' }
 				},
 				{
 					path: '/amend',

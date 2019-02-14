@@ -117,7 +117,7 @@
 					// 分页
 					handleCurrentChange(val) {
 						this.page = val;
-						this.getArticle();
+						this.getUser();
 					},
           //获取用户列表
 					 getUser() {

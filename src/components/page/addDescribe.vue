@@ -2,26 +2,16 @@
     <div class="container">
 		<div class="form-box">
 			<el-form ref="form" :model="form" label-width="100px">	
-				 <el-form-item  label="角色名称">
-				 	<el-input v-model="form.name"></el-input>
-				 </el-form-item>     
-				 <el-form-item label="角色描述:">
-					 <el-input type="textarea" v-model="form.describe"></el-input>
-				 </el-form-item>
-				 <el-form-item label="角色权限:">
-				 	<el-checkbox-group v-model="form.authority ">
-				 		<el-checkbox label="发表文章" name="type"></el-checkbox>
-				 		<el-checkbox label="编辑文章" name="type"></el-checkbox>
-				 		<el-checkbox label="标签管理" name="type"></el-checkbox>
-				 		<el-checkbox label="回收站管理" name="type"></el-checkbox>
-				 		<el-checkbox label="用户管理" name="type"></el-checkbox>
-				 		<el-checkbox label="角色管理" name="type"></el-checkbox>
-				 	</el-checkbox-group>
+				 <el-form-item  label="名称">
+					<el-input v-model="form.name"></el-input>
+				 </el-form-item>          
+				 <el-form-item label="代码:">
+				 	<el-input v-model="form.code"></el-input>
 				 </el-form-item>
 				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			   <el-button type="primary" round @click="addRole()">&nbsp;&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;&nbsp;</el-button>&nbsp;&nbsp;&nbsp;
-			   <router-link to='/manageRole'>
+			   <router-link to='/managePower'>
 					<el-button type="info" round>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;</el-button>
 				</router-link>
 			</el-form>
@@ -36,15 +26,14 @@
             return {
 							form: {
 								name: '',
-								describe: '',
-								authority:[]
+								code: ''
 							}
             }
         },
         methods: {
 					addRole() {
 						this.$axios.post(
-							'admin/role_add',
+							'admin/authority_add',
 							this.$qs.stringify(this.form)
 						).then((res) => {
 							if (res.data.code == -1) {
@@ -52,6 +41,7 @@
 								this.$router.push('/login');
 							} else if (res.data.code == 0) {
 								console.log(res)
+								this.$router.push('/managePower')
 								// this.tableData = res.data.data.list;
 							} else {
 								this.$message.warning(res.data.message);

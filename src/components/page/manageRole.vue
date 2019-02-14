@@ -7,10 +7,10 @@
 				 <div class="gehang"></div>
 			<!-- 表格 -->
 			 <el-table :data="tableData" border style="width: 100%">
-				<el-table-column prop="num" label="序号" width="50" align="center"></el-table-column>
-				<el-table-column prop="actoename" label="角色名称" width="150" align="center"></el-table-column>
-				<el-table-column prop="actormeg" label="角色描述" style="width: 20%" align="center"></el-table-column>
-				<el-table-column prop="creattime" label="创建时间" width="180" align="center"></el-table-column>
+				<el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+				<el-table-column prop="name" label="角色名称" width="150" align="center" :formatter="formatRole"></el-table-column>
+				<el-table-column prop="describe" label="角色描述" style="width: 20%" align="center"></el-table-column>
+				<el-table-column prop="add_time" label="创建时间" width="180" align="center"></el-table-column>
 				<el-table-column label="操作" width="200" align="center">
 					<template slot-scope="scope">
 						<router-link to='/amend'>
@@ -22,9 +22,14 @@
 			 </el-table>
 			<!-- 分页 -->
 			<div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
+				<el-pagination
+						@current-change="handleCurrentChange"
+						:current-page="page"
+						:page-size="per_page"
+						layout="prev, pager, next, jumper"
+						:total="total">
+				</el-pagination>
+			</div>
         </div>
     </div>
 </template>
@@ -34,29 +39,44 @@
         name: 'manageRole',
         data() {
             return {
-               formInline: {
-								user: '',
-								region: ''
-							},
-				tableData: [{
-					num:'1',
-					actoename: '系统管理员',
-					actormeg:'系统管理员拥有所有权限',
-					creattime:'2019-01-29'
-					},{
-					num:'2',
-					actoename: '普通用户',
-					actormeg:'普通用户只可以编辑和发布文章',
-					creattime:'2019-01-29'
-					}]
-				 
+							page: 1,
+							total: 0,
+							per_page: 0,
+							tableData: []
             }
         },
-        methods: {			 
-            // 分页导航
+				created() {
+					this.getRole();
+				},
+        methods: {
+					formatRole: function(row, column) {
+						return row.name == '1' ? "普通用户" : row.name == '2' ? "系统管理员" :"aa";
+					},
+					//获取角色列表
+					getRole() {
+						this.$axios.post(
+							'admin/role_list',
+							this.$qs.stringify({page:this.page})
+						).then((res) => {
+							if (res.data.code == -1) {
+								this.$message.warning('请登录！');
+								this.$router.push('/login');
+							} else if (res.data.code == 0) {
+								console.log(res)
+								this.tableData = res.data.data.list;
+								this.total = res.data.data.count;
+								this.per_page = res.data.data.per_page;
+							} else {
+								this.$message.warning(res.data.message);
+							}
+						}).catch((err) => {
+							console.log(err)
+						})
+					},
+					//分页		 
             handleCurrentChange(val) {
-                this.cur_page = val;
-                this.getData();
+            	this.page = val;
+            	this.getRole();
             }
         }
     }

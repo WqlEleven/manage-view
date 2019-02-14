@@ -1,9 +1,9 @@
 <template>
         <div class="container">
 			<el-table :data="tableData" border style="width: 100%">
-				<el-table-column prop="num" label="序号" width="200" align="center"></el-table-column>
-				<el-table-column prop="lable" label="标签" style="width: 20%" align="center"></el-table-column>
-				<el-table-column prop="a_num" label="篇数" width="250" align="center"></el-table-column>
+				<el-table-column prop="id" label="序号" width="200" align="center"></el-table-column>
+				<el-table-column prop="name" label="标签" style="width: 20%" align="center"></el-table-column>
+				<el-table-column prop="num" label="篇数" width="250" align="center"></el-table-column>
 				<el-table-column label="操作"  width="200" align="center">
 					<template slot-scope="scope">
 						<router-link to='/lablecheck'>
@@ -12,27 +12,17 @@
 					</template>
 				</el-table-column>
 			</el-table>	
-           <!-- <el-table :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
-                <el-table-column prop="date" label="序号" sortable width="150" align="center">
-                </el-table-column>
-                <el-table-column prop="name" label="标签" width="120" align="center">
-                </el-table-column>
-                <el-table-column prop="num" label="篇数" :formatter="formatter" align="center">
-                </el-table-column>
-                <el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-						<router-link to="/lablecheck">
-							<el-button type="text" icon="el-icon-search">查看</el-button>
-						</router-link>
-                    </template>
-                </el-table-column>
-            </el-table>
-            -->
+			<!-- 分页 -->
 			<div class="pagination">
-                <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </div>
-        </div>
+				<el-pagination
+						@current-change="handleCurrentChange"
+						:current-page="page"
+						:page-size="per_page"
+						layout="prev, pager, next, jumper"
+						:total="total">
+				</el-pagination>
+			</div>
+   </div>
 
 </template>
 
@@ -41,23 +31,42 @@
         name: 'manageLable',
         data() {
             return {
-				tableData: [{
-						num:'1',
-						lable: '标签1',
-						a_num:'100'
-						},{
-						num:'1',
-						lable: '标签1',
-						a_num:'100'
-						}]
+							page: 1,
+							total: 0,
+							per_page: 0,
+							tableData: []
             }
         },
+				created() {
+					this.getLable();
+				},
       methods: {
-            // 分页导航
-            handleCurrentChange(val) {
-                this.cur_page = val;
-                this.getData();
-            }
+				//获取标签列表
+				getLable() {
+					this.$axios.post(
+						'admin/tag_list',
+						this.$qs.stringify({page:this.page})
+					).then((res) => {
+						if (res.data.code == -1) {
+							this.$message.warning('请登录！');
+							this.$router.push('/login');
+						} else if (res.data.code == 0) {
+							// console.log(res)
+							this.tableData = res.data.data.list;
+							this.total = res.data.data.count;
+							this.per_page = res.data.data.per_page;
+						} else {
+							this.$message.warning(res.data.message);
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
+				},
+           // 分页
+           handleCurrentChange(val) {
+           	this.page = val;
+           	this.getLable();
+           }
           }
     }
 

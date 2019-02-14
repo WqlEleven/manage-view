@@ -76,6 +76,10 @@
 							{
 								index: 'manageRole',
 								title: '角色管理',
+							},
+							{
+								index: 'managePower',
+								title: '权限管理',
 							}
 						]
 					},
