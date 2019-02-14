@@ -151,7 +151,8 @@ export default new Router({
                 },
                 {
                     path: '/editpwd',
-                    component: resolve => require(['../components/page/editpwd.vue'], resolve)
+                    component: resolve => require(['../components/page/editpwd.vue'], resolve),
+                    meta: { title: '修改密码' }
                 },
                 {
                     path: '/form',
