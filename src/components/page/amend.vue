@@ -45,20 +45,31 @@
         methods: {
             //修改
             edit() {
-                this.$confirm('此操作将修改角色信息, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    // this.$message({
-                    //     type: 'success',
-                    //     message: '修改成功!'
-                    // });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消修改'
-                    });
+                var str = document.getElementsByName("type");
+                var objarray = str.length;
+                var chestr = [];
+                for (var i = 0; i < objarray; i++) {
+                    if (str[i].checked == true) {
+                        chestr[chestr.length] = str[i].value;
+                    }
+                }
+                this.form.authority = chestr.join(',');
+                this.$axios.post(
+                    'admin/role_edit',
+                    this.$qs.stringify(this.form)
+                ).then((res) => {
+                    // console.log(res)
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        this.$message.success(res.data.message);
+                        this.$router.push('/manageRole')
+                    } else {
+                        this.$message.warning(res.data.message);
+                    }
+                }).catch((err) => {
+                    console.log(err)
                 });
             },
             //动态获取权限列表
