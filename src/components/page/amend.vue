@@ -10,7 +10,7 @@
                 </el-form-item>
                 <el-form-item label="角色权限:">
                     <el-checkbox-group v-model="form.authority">
-                        <el-checkbox v-for="item in authority_list" :label="item.id" name="type">{{item.name}}
+                        <el-checkbox v-for="item in authority_list" :label="item.id" :key="item.id" name="type">{{item.name}}
                         </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
