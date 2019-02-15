@@ -13,7 +13,26 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item prop="tag" label="标签">
-                    <el-input v-model="form.tag"></el-input>
+                    <!--el-input v-model="form.tag"></el-input-->
+                    <el-tag
+                            :key="tag"
+                            v-for="tag in dynamicTags"
+                            closable
+                            :disable-transitions="false"
+                            @close="handleClose(tag)">
+                        {{tag}}
+                    </el-tag>
+                    <el-input
+                            class="input-new-tag"
+                            v-if="inputVisible"
+                            v-model="inputValue"
+                            ref="saveTagInput"
+                            size="small"
+                            @keyup.enter.native="handleInputConfirm"
+                            @blur="handleInputConfirm"
+                    >
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加标签</el-button>
                 </el-form-item>
                 <el-form-item prop="picture" label="头图">
                     <el-upload
@@ -22,7 +41,7 @@
                             :show-file-list="false"
                             :on-success="handlePictureSuccess"
                             :before-upload="beforePictureUpload"
-					>
+                    >
                         <img v-if="pictureUrl" :src="pictureUrl" class="picture">
                         <i v-else class="el-icon-plus picture-uploader-icon"></i>
                     </el-upload>
@@ -58,12 +77,12 @@
         data: function () {
             return {
                 form: {
-					type:'',
-					id:'',
+                    type: '',
+                    id: '',
                     title: '',
                     picture: '',
                     content: '',
-					category_id:''
+                    category_id: ''
                 },
                 rules: {
                     title: [
@@ -83,38 +102,40 @@
                     placeholder: '在这里输入文章正文！'
                 },
                 pictureUrl: '',
+                dynamicTags: [],
+                inputVisible: false,
+                inputValue: ''
             }
         },
         components: {
             quillEditor
         },
-		created(){			
-			this.getArtMsg();
-		},
+        created() {
+            this.getArtMsg();
+        },
         methods: {
-			//获取文章信息
-			getArtMsg(){
-						this.form.id = this.$route.query.id;					
-						this.$axios.post('admin/article_info',this.$qs.stringify({id:this.form.id}))
-						.then((res)=>{				
-							if(res.data.code == -1){
-								this.$message.warning('请登录！');
-								this.$router.push('/login');
-							}else if(res.data.code == 0){
-								//写逻辑
-								this.form.id =  res.data.data.info.id;
-								this.form.title = res.data.data.info.title;
-								this.form.category_id = res.data.data.info.category_id;
-								this.form.tag = res.data.data.info.tag;
-								this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
-								this.form.picture = res.data.data.info.picture;
-								this.form.content = res.data.data.info.content;	
-							}
-						})
-						.catch((err)=>{
-							console.log(err)
-						})
-					},
+            handleClose(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            },
+
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    if (this.dynamicTags.indexOf(inputValue) == -1) {
+                        this.dynamicTags.push(inputValue);
+                    }
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+
             handlePictureSuccess(res, file) {
                 if (res.code == 0) {
                     this.form.picture = res.data.file;
@@ -122,11 +143,11 @@
                 }
             },
             beforePictureUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
                 const isLt2M = file.size / 1024 / 1024 < 2;
 
                 if (!isJPG) {
-                    this.$message.error('上传图片只能是 JPG 格式!');
+                    this.$message.error('上传图片只能是 JPG, PNG 格式!');
                 }
                 if (!isLt2M) {
                     this.$message.error('上传图片大小不能超过 2MB!');
@@ -138,59 +159,87 @@
             },
             onSubmit(type) {
                 this.$refs['form'].validate((valid) => {
-					if (valid) {
-						this.form.type = type;
-						this.$axios.post(
-							'admin/article_edit',
-							this.$qs.stringify(this.form),
-						).then((res) => {
-							//console.log(res);
-							if (res.data.code == -1) {
-								this.$message.warning('请登录！');
-								this.$router.push('/login');
-							} else if (res.data.code == 0) {
-								console.log(res);
-								this.$message.success(res.data.message);
-								this.$router.push('/manageArticle');
-							} else {
-								//console.log(res.data.message);
-								this.$message.warning(res.data.message);
-							}
-						}).catch((res) => {
-							console.log(res);
-						});
-					} else {
-						console.log('error submit!!');
-						return false;
-					}				 					
+                    if (valid) {
+                        this.form.type = type;
+                        this.form.tags = this.dynamicTags.join(',');
+                        this.$axios.post(
+                            'admin/article_edit',
+                            this.$qs.stringify(this.form),
+                        ).then((res) => {
+                            //console.log(res);
+                            if (res.data.code == -1) {
+                                this.$message.warning('请登录！');
+                                this.$router.push('/login');
+                            } else if (res.data.code == 0) {
+                                console.log(res);
+                                this.$message.success(res.data.message);
+                                this.$router.push('/manageArticle');
+                            } else {
+                                //console.log(res.data.message);
+                                this.$message.warning(res.data.message);
+                            }
+                        }).catch((res) => {
+                            console.log(res);
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
                 });
             },
-			//删除
-			handleDelete(text){
-				// console.log(this.form.id)
-				this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.$axios.post('admin/article_delete',this.$qs.stringify({id:this.form.id}))
-					.then((res)=>{
-						// console.log(res)
-						if(res.data.code === 0){
-							this.$message.success(res.data.message);
-							this.$router.push('/')
-						}else if(res.data.code === -1){
-							this.$message.warning('请登录！');
-							this.$router.push('/login');
-						}
-					})
-					.catch((err)=>{
-						console.log(err)
-					})
-				}).catch(() => {
-					this.$message.info('已取消删除');
-				});
-			}
+            //获取文章信息
+            getArtMsg() {
+                this.form.id = this.$route.query.id;
+                this.$axios.post(
+                    'admin/article_info',
+                    this.$qs.stringify({id: this.form.id})
+                ).then((res) => {
+                        if (res.data.code == -1) {
+                            this.$message.warning('请登录！');
+                            this.$router.push('/login');
+                        } else if (res.data.code == 0) {
+                            //写逻辑
+                            this.form.id = res.data.data.info.id;
+                            this.form.title = res.data.data.info.title;
+                            this.form.category_id = res.data.data.info.category_id;
+                            this.dynamicTags = res.data.data.info.tags.split(',');
+                            this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+                            this.form.picture = res.data.data.info.picture;
+                            this.form.content = res.data.data.info.content;
+                        }
+                    }
+                ).catch((err) => {
+                    console.log(err)
+                });
+            },
+            //删除
+            handleDelete(text) {
+                // console.log(this.form.id)
+                this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios.post(
+                        'admin/article_delete',
+                        this.$qs.stringify({id: this.form.id})
+                    ).then((res) => {
+                            // console.log(res)
+                            if (res.data.code === 0) {
+                                this.$message.success(res.data.message);
+                                this.$router.push('/')
+                            } else if (res.data.code === -1) {
+                                this.$message.warning('请登录！');
+                                this.$router.push('/login');
+                            }
+                        }
+                    ).catch((err) => {
+                        console.log(err)
+                    });
+                }).catch(() => {
+                    this.$message.info('已取消删除');
+                });
+            }
         }
     }
 </script>
@@ -220,5 +269,23 @@
         width: 357px;
         height: 178px;
         display: block;
-    } 
+    }
+
+    .el-tag + .el-tag {
+        margin-left: 10px;
+    }
+
+    .button-new-tag {
+        margin-left: 10px;
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .input-new-tag {
+        width: 90px;
+        margin-left: 10px;
+        vertical-align: bottom;
+    }
 </style>
