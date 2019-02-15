@@ -14,11 +14,12 @@
                         </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-button type="primary" round @click="edit()">&nbsp;&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;&nbsp;
-                </el-button>&nbsp;&nbsp;&nbsp;
-                <router-link to='/manageRole'>
-                    <el-button type="info" round>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;</el-button>
-                </router-link>
+                <el-form-item label="">
+                    <el-button type="primary" round @click="edit()">修改</el-button>
+                    <router-link to='/manageRole'>
+                        <el-button type="info" round>返回</el-button>
+                    </router-link>
+                </el-form-item>
             </el-form>
         </div>
     </div>
@@ -39,6 +40,15 @@
             }
         },
         created() {
+            //this.form.id = this.$route.query.id;
+        },
+        mounted() {
+            this.form.id = this.$route.query.id;
+            this.getauthority();
+            this.getArtMsg();
+        },
+        activated() {
+            this.form.id = this.$route.query.id;
             this.getauthority();
             this.getArtMsg();
         },
@@ -92,7 +102,7 @@
             },
             //获取角色信息
             getArtMsg() {
-                this.form.id = this.$route.query.id;
+                //this.form.id = this.$route.query.id;
                 this.$axios.post(
                     'admin/role_info',
                     this.$qs.stringify({id: this.form.id})

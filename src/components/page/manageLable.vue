@@ -37,7 +37,10 @@
                 tableData: []
             }
         },
-        created() {
+        mounted(){
+            this.getLable();
+        },
+        activated() {
             this.getLable();
         },
         methods: {
