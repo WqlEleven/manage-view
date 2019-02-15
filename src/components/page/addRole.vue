@@ -9,13 +9,8 @@
 					 <el-input type="textarea" v-model="form.describe"></el-input>
 				 </el-form-item>
 				 <el-form-item label="角色权限:">
-				 	<el-checkbox-group v-model="form.authority ">
-				 		<el-checkbox label="发表文章" name="type"></el-checkbox>
-				 		<el-checkbox label="编辑文章" name="type"></el-checkbox>
-				 		<el-checkbox label="标签管理" name="type"></el-checkbox>
-				 		<el-checkbox label="回收站管理" name="type"></el-checkbox>
-				 		<el-checkbox label="用户管理" name="type"></el-checkbox>
-				 		<el-checkbox label="角色管理" name="type"></el-checkbox>
+				 	<el-checkbox-group v-model="form.authority">
+				 		<el-checkbox v-for='index in name' :key = 'index.id'  :label="index.name" name="type" :value = 'index.id'></el-checkbox>
 				 	</el-checkbox-group>
 				 </el-form-item>
 				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -39,7 +34,8 @@
 								name: '',
 								describe: '',
 								authority:[]
-							}
+							},
+							name:[]
             }
         },
 				created() {
@@ -56,13 +52,8 @@
 								this.$router.push('/login');
 							} else if (res.data.code == 0) {
 								console.log(res)
-								const arr = res.data.data.list;
-								// console.log(arr)
-								const name = [];
-								for(var i = 0;i<arr.length;i++){
-									name[name.length] = arr[i].name
-								}
-								console.log(name)
+								this.name = res.data.data.list;
+								
 							} else {
 								this.$message.warning(res.data.message);
 							}
