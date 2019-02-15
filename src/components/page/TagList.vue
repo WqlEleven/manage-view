@@ -6,7 +6,7 @@
             <el-table-column prop="num" label="篇数" width="250" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
-                    <router-link :to="{path:'/lablecheck',query:{tag:scope.row.name}}">
+                    <router-link :to="{path:'/TagArticle',query:{tag:scope.row.name}}">
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
                 </template>

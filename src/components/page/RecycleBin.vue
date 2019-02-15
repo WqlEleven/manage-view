@@ -10,7 +10,7 @@
                     <router-link to='/preview'>
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
-                    <router-link :to="{path:'/editarticle',query:{id:scope.row.id}}">
+                    <router-link :to="{path:'/ArticleEdit',query:{id:scope.row.id}}">
                     <el-button type="text" icon="el-icon-edit">编辑</el-button>
                     </router-link>
                 </template>

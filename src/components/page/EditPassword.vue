@@ -11,7 +11,7 @@
                 <el-input v-model="form.pwd"></el-input>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" round @click="editpwd()">确认修改</el-button>
+                <el-button type="primary" round @click="EditPassword()">确认修改</el-button>
                 <router-link to='/manageArticle'>
                     <el-button type="info" round>返回</el-button>
                 </router-link>
@@ -22,7 +22,7 @@
 
 <script>
     export default {
-        name: 'editpwd',
+        name: 'EditPassword.vue',
         data: function () {
             return {
                 form: {

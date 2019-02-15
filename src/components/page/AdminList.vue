@@ -23,7 +23,7 @@
                 </el-form-item>
             </el-form>
 
-            <router-link to='/newUser'>
+            <router-link to='/AdminAdd'>
                 <el-button type="primary">新增用户</el-button>
             </router-link>
             <div class="gehang"></div>
@@ -41,7 +41,7 @@
                 <el-table-column prop="last_time" label="最后登录时间" width="200" align="center"></el-table-column>
                 <el-table-column label="操作" style="width: 10%" align="center">
                     <template slot-scope="scope">
-                        <router-link :to="{path:'/revise',query:{id:scope.row.id}}">
+                        <router-link :to="{path:'/AdminEdit',query:{id:scope.row.id}}">
                         <el-button type="text" icon="el-icon-edit">修改</el-button>
                         </router-link>
                         <!--

@@ -45,19 +45,19 @@
                         title: '内容管理',
                         subs: [
                             {
-                                index: 'publisharticle',
+                                index: 'ArticleAdd',
                                 title: '发布文章',
                             },
                             {
-                                index: 'manageArticle',
+                                index: 'ArticleList',
                                 title: '文章管理',
                             },
                             {
-                                index: 'manageLable',
+                                index: 'TagList',
                                 title: '标签管理',
                             },
                             {
-                                index: 'recyclebin',
+                                index: 'RecycleBin',
                                 title: '回收站',
                             }
                         ]
@@ -69,15 +69,15 @@
                         title: '系统管理',
                         subs: [
                             {
-                                index: 'manageUser',
+                                index: 'AdminList',
                                 title: '用户管理',
                             },
                             {
-                                index: 'manageRole',
+                                index: 'RoleList',
                                 title: '角色管理',
                             },
                             {
-                                index: 'managePower',
+                                index: 'AuthorityList',
                                 title: '权限管理',
                             }
                         ]

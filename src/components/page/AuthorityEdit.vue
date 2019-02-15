@@ -9,7 +9,7 @@
                     <el-input v-model="form.code"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button type="primary" round @click="addRole()">新增</el-button>
+                    <el-button type="primary" round @click="editRole()">修改</el-button>
                     <router-link to='/managePower'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
@@ -25,31 +25,63 @@
         data: function () {
             return {
                 form: {
+                    id: '',
                     name: '',
                     code: ''
                 }
             }
         },
+        created() {
+            //this.form.id = this.$route.query.id;
+        },
+        mounted() {
+            this.form.id = this.$route.query.id;
+            this.getArtMsg();
+        },
+        activated() {
+            this.form.id = this.$route.query.id;
+            this.getArtMsg();
+        },
         methods: {
-            addRole() {
+            //修改
+            editRole() {
                 this.$axios.post(
-                    'admin/authority_add',
-                    this.$qs.stringify(this.form)
+                    'admin/authority_edit',
+                    this.$qs.stringify(this.form),
+                ).then((res) => {
+                    //console.log(res);
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        this.$message.success(res.data.message);
+                        this.$router.push('/AuthorityList')
+                    } else {
+                        //console.log(res.data.message);
+                        this.$message.warning(res.data.message);
+                    }
+                }).catch((res) => {
+                    console.log(res);
+                });
+            },
+            //获取权限信息
+            getArtMsg() {
+                this.form.id = this.$route.query.id;
+                this.$axios.post(
+                    'admin/authority_info',
+                    this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
                     // console.log(res);
                     if (res.data.code == -1) {
                         this.$message.warning('请登录！');
                         this.$router.push('/login');
                     } else if (res.data.code == 0) {
-                        this.$router.push('/managePower')
-                        // this.tableData = res.data.data.list;
-                    } else {
-                        this.$message.warning(res.data.message);
+                        this.form = res.data.data.info;
                     }
                 }).catch((err) => {
                     console.log(err);
                 });
-            }
+            },
         }
     }
 </script>

@@ -15,7 +15,7 @@
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button type="primary" round @click="addRole()">新增</el-button>
+                    <el-button type="primary" round @click="RoleAdd()">新增</el-button>
                     <router-link to='/manageRole'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
@@ -69,7 +69,7 @@
                             this.$router.push('/login');
                         } else if (res.data.code == 0) {
                             this.$message.success(res.data.message);
-                            this.$router.push('/manageRole')
+                            this.$router.push('/RoleList')
                         } else {
                             this.$message.warning(res.data.message);
                         }

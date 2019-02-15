@@ -1,19 +1,19 @@
 <template>
     <div class="table">
         <div class="container">
-
-            <router-link to='/addDescribe'>
-                <el-button type="primary">新增权限</el-button>
+            <router-link to='/RoleAdd'>
+                <el-button type="primary">新增角色</el-button>
             </router-link>
             <div class="gehang"></div>
             <!-- 表格 -->
             <el-table :data="tableData" border style="width: 100%">
-                <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
-                <el-table-column prop="name" label="名称" width="300" align="center"></el-table-column>
-                <el-table-column prop="code" label="代码" width="300" align="center"></el-table-column>
-                <el-table-column label="操作" style="width: 30%" align="center">
+                <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="角色名称" width="150" align="center"></el-table-column>
+                <el-table-column prop="describe" label="角色描述" style="width: 20%" align="center"></el-table-column>
+                <el-table-column prop="add_time" label="创建时间" width="180" align="center"></el-table-column>
+                <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
-                        <router-link :to="{path:'/editPower',query:{id:scope.row.id}}">
+                        <router-link :to="{path:'/RoleEdit',query:{id:scope.row.id}}">
                             <el-button type="text" icon="el-icon-edit">修改</el-button>
                         </router-link>
                         <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.row)">删除
@@ -37,11 +37,9 @@
 
 <script>
     export default {
-        name: 'managePower',
+        name: 'manageRole',
         data() {
             return {
-                name: '',
-                code: '',
                 page: 1,
                 total: 0,
                 per_page: 0,
@@ -49,16 +47,16 @@
             }
         },
         mounted() {
-            this.getList();
+            this.getRole();
         },
         activated() {
-            this.getList();
+            this.getRole();
         },
         methods: {
-            //获取列表
-            getList() {
+            //获取角色列表
+            getRole() {
                 this.$axios.post(
-                    'admin/authority_list',
+                    'admin/role_list',
                     this.$qs.stringify({page: this.page})
                 ).then((res) => {
                     // console.log(res);
@@ -77,10 +75,10 @@
                 });
             },
 
-            // 分页
+            //分页
             handleCurrentChange(val) {
                 this.page = val;
-                this.getList();
+                this.getRole();
             },
 
             //删除
@@ -92,13 +90,13 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios.post(
-                        'admin/authority_delete',
+                        'admin/role_delete',
                         this.$qs.stringify({id: text.id})
                     ).then((res) => {
                         // console.log(res);
                         if (res.data.code == 0) {
                             this.$message.success(res.data.message);
-                            this.getList();
+                            this.getRole();
                         } else if (res.data.code == -1) {
                             this.$message.warning('请登录！');
                             this.$router.push('/login');
