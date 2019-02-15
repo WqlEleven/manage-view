@@ -1,22 +1,22 @@
 <template>
     <div class="container">
-		<!-- 表单 -->
-			<el-form :inline="true" :model="form" class="demo-form-inline">
-				<el-form-item label="关键字:">
-				<el-input v-model="form.keywords" ></el-input>
-				</el-form-item>
-				<el-form-item label="分类:">
-					<el-select v-model="form.category_id" placeholder="请选择">
-						<el-option label="原创" value="2"></el-option>
-						<el-option label="转载" value="3"></el-option>
-						<el-option label="用户投稿" value="4"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="handleSearch()">搜索</el-button>
-				</el-form-item>
-		</el-form> 
-		<!-- 状态 -->
+        <!-- 表单 -->
+        <el-form :inline="true" :model="form" class="demo-form-inline">
+            <el-form-item label="关键字:">
+                <el-input v-model="form.keywords"></el-input>
+            </el-form-item>
+            <el-form-item label="分类:">
+                <el-select v-model="form.category_id" placeholder="请选择">
+                    <el-option label="原创" value="2"></el-option>
+                    <el-option label="转载" value="3"></el-option>
+                    <el-option label="用户投稿" value="4"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="handleSearch()">搜索</el-button>
+            </el-form-item>
+        </el-form>
+        <!-- 状态 -->
         <div class="handle-box">
             状态：
             <router-link to='/published'>
@@ -28,11 +28,11 @@
         </div>
 
         <el-table :data="tableData" border style="width: 100%">
-			<el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
-			<el-table-column prop="category_name" label="分类" width="100" align="center"></el-table-column>
-			<el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
+            <el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+            <el-table-column prop="category_name" label="分类" width="100" align="center"></el-table-column>
+            <el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
             <el-table-column prop="click" label="转发人数/查看人数" width="150" align="center"></el-table-column>
-            <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>         
+            <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
                     <router-link to='/preview'>
@@ -60,10 +60,10 @@
         name: 'manage',
         data() {
             return {
-				form: {
-					keywords: '',
-					category_id: ''
-				},
+                form: {
+                    keywords: '',
+                    category_id: ''
+                },
                 radio: '',
                 page: 1,
                 total: 0,
@@ -75,36 +75,35 @@
             this.getArticle();
         },
         methods: {
-			//搜索
-			handleSearch(){
-				this.$axios.post(
-					'admin/article_list',
-					this.$qs.stringify({keywords:this.form.keywords,category_id:this.form.category_id}))
-					.then((res)=>{
-						if (res.data.code == -1) {
-							this.$message.warning('请登录！');
-							this.$router.push('/login');
-						} else if (res.data.code == 0) {
-					 						console.log(res)
-					 						this.tableData = res.data.data.list;
-											this.total = res.data.data.count;
-											this.per_page = res.data.data.per_page;
-						} else {
-							this.$message.warning(res.data.message);
-						}
-
-					})
-					.catch((err)=>{
-						console.log(err)
-					})
-			},
-			//跳转编辑页
+            //搜索
+            handleSearch() {
+                this.$axios.post(
+                    'admin/article_list',
+                    this.$qs.stringify({keywords: this.form.keywords, category_id: this.form.category_id})
+                ).then((res) => {
+                    // console.log(res);
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        this.tableData = res.data.data.list;
+                        this.total = res.data.data.count;
+                        this.per_page = res.data.data.per_page;
+                    } else {
+                        this.$message.warning(res.data.message);
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                })
+            },
+            //跳转编辑页
             goedit(art) {
-				this.$router.push({
-					path:'/editarticleback',
-					query:{
-						id : art.id
-                }});
+                this.$router.push({
+                    path: '/editarticleback',
+                    query: {
+                        id: art.id
+                    }
+                });
             },
             // 分页
             handleCurrentChange(val) {
@@ -115,13 +114,13 @@
             getArticle() {
                 this.$axios.post(
                     'admin/article_list',
-                    this.$qs.stringify({page:this.page})
+                    this.$qs.stringify({page: this.page})
                 ).then((res) => {
+                    // console.log(res);
                     if (res.data.code == -1) {
                         this.$message.warning('请登录！');
                         this.$router.push('/login');
                     } else if (res.data.code == 0) {
-						// console.log(res)
                         this.tableData = res.data.data.list;
                         this.total = res.data.data.count;
                         this.per_page = res.data.data.per_page;
@@ -129,7 +128,7 @@
                         this.$message.warning(res.data.message);
                     }
                 }).catch((err) => {
-                    console.log(err)
+                    console.log(err);
                 })
             }
         }

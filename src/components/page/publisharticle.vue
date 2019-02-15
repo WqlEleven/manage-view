@@ -139,7 +139,7 @@
                 this.inputValue = '';
             },
             handlePictureSuccess(res, file) {
-                console.log(res)
+                // console.log(res)
                 if (res.code == 0) {
                     //this.form.picture = URL.createObjectURL(file.raw);
                     this.form.picture = res.data.file;

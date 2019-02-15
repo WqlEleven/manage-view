@@ -166,12 +166,11 @@
                             'admin/article_edit',
                             this.$qs.stringify(this.form),
                         ).then((res) => {
-                            //console.log(res);
+                            // console.log(res);
                             if (res.data.code == -1) {
                                 this.$message.warning('请登录！');
                                 this.$router.push('/login');
                             } else if (res.data.code == 0) {
-                                console.log(res);
                                 this.$message.success(res.data.message);
                                 this.$router.push('/manageArticle');
                             } else {
@@ -194,22 +193,22 @@
                     'admin/article_info',
                     this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
-                        if (res.data.code == -1) {
-                            this.$message.warning('请登录！');
-                            this.$router.push('/login');
-                        } else if (res.data.code == 0) {
-                            //写逻辑
-                            this.form.id = res.data.data.info.id;
-                            this.form.title = res.data.data.info.title;
-                            this.form.category_id = res.data.data.info.category_id;
-                            this.dynamicTags = res.data.data.info.tags.split(',');
-                            this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
-                            this.form.picture = res.data.data.info.picture;
-                            this.form.content = res.data.data.info.content;
-                        }
+                    // console.log(res);
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        //写逻辑
+                        this.form.id = res.data.data.info.id;
+                        this.form.title = res.data.data.info.title;
+                        this.form.category_id = res.data.data.info.category_id;
+                        this.dynamicTags = res.data.data.info.tags.split(',');
+                        this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+                        this.form.picture = res.data.data.info.picture;
+                        this.form.content = res.data.data.info.content;
                     }
-                ).catch((err) => {
-                    console.log(err)
+                }).catch((err) => {
+                    console.log(err);
                 });
             },
             //删除
@@ -224,17 +223,16 @@
                         'admin/article_delete',
                         this.$qs.stringify({id: this.form.id})
                     ).then((res) => {
-                            // console.log(res)
-                            if (res.data.code === 0) {
-                                this.$message.success(res.data.message);
-                                this.$router.push('/')
-                            } else if (res.data.code === -1) {
-                                this.$message.warning('请登录！');
-                                this.$router.push('/login');
-                            }
+                        // console.log(res);
+                        if (res.data.code === 0) {
+                            this.$message.success(res.data.message);
+                            this.$router.push('/')
+                        } else if (res.data.code === -1) {
+                            this.$message.warning('请登录！');
+                            this.$router.push('/login');
                         }
-                    ).catch((err) => {
-                        console.log(err)
+                    }).catch((err) => {
+                        console.log(err);
                     });
                 }).catch(() => {
                     this.$message.info('已取消删除');
