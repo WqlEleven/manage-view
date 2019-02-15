@@ -53,7 +53,7 @@
                             'admin/login',
                             this.$qs.stringify(this.ruleForm)
                         ).then((res) => {
-                            console.log(res);
+                            //console.log(res);
                             if (res.data.code == 0) {
                                 localStorage.setItem('ms_username', this.ruleForm.username);
                                 //保存用户名和密码到cookie
