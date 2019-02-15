@@ -45,6 +45,9 @@
                         <i v-else class="el-icon-plus picture-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
+				<el-form-item label="导语" prop="intro">
+					<el-input id="markText" type="textarea" prop="intro" v-model="form.intro" placeholder='字数不超过500字'></el-input>
+				</el-form-item>
                 <el-form-item prop="content" label="内容">
                     <!-- 富文本编辑器 -->
                     <quill-editor ref="myTextEditor" v-model="form.content" :options="editorOption"></quill-editor>
@@ -93,14 +96,9 @@
                         message: '请选择分类',
                         trigger: 'blur'
                     }],
-                    picture: [{
+                    intro: [{
                         required: true,
-                        message: '请上传头图',
-                        trigger: 'blur'
-                    }],
-                    content: [{
-                        required: true,
-                        message: '请输入内容',
+                        message: '请输入导语',
                         trigger: 'blur'
                     }],
                 },
@@ -117,6 +115,23 @@
             quillEditor
         },
         methods: {
+			//处理输入事件
+			handlekeyup(){
+				console.log(1)
+				const text = document.getElementById('markText').value;
+				//中文字数统计
+				const str = (text.replace(/\w/g,"")).length;
+				//非汉字的个数
+				const abcnum = text.length-str;
+				const total = str+abcnum;
+				if(total > 500){
+					// this.$message.warning('导语部分超出500字!');
+					// console.log(1111)
+					this.over = 1;
+				}	else{
+					this.over = 0;
+				}			
+			},
             handleClose(tag) {
                 this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
             },
@@ -163,28 +178,33 @@
             onSubmit(type) {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        //console.log(this.form.content);
-                        this.form.type = type;
-                        this.form.tags = this.dynamicTags.join(',');
-                        this.$axios.post(
-                            'admin/article_add',
-                            this.$qs.stringify(this.form),
-                            //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-                        ).then((res) => {
-                            //console.log(res);
-                            if (res.data.code == -1) {
-                                this.$message.warning('请登录！');
-                                this.$router.push('/login');
-                            } else if (res.data.code == 0) {
-                                this.$message.success(res.data.message);
-                                this.$router.push('/manageArticle');
-                            } else {
-                                //console.log(res.data.message);
-                                this.$message.warning(res.data.message);
-                            }
-                        }).catch((res) => {
-                            console.log(res);
-                        });
+                        this.handlekeyup()
+                        if(this.over == 0){
+							//console.log(this.form.content);
+							this.form.type = type;
+							this.form.tags = this.dynamicTags.join(',');
+							this.$axios.post(
+								'admin/article_add',
+								this.$qs.stringify(this.form),
+								//{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+							).then((res) => {
+								//console.log(res);
+								if (res.data.code == -1) {
+									this.$message.warning('请登录！');
+									this.$router.push('/login');
+								} else if (res.data.code == 0) {
+									this.$message.success(res.data.message);
+									this.$router.push('/manageArticle');
+								} else {
+									//console.log(res.data.message);
+									this.$message.warning(res.data.message);
+								}
+							}).catch((res) => {
+								console.log(res);
+							});
+						}else if(this.over == 1){
+							this.$message.warning('导语部分自出超过500字！');
+						}
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -219,11 +239,11 @@
         text-align: center;
     }
 
-    .picture {
-        width: 357px;
-        height: 178px;
-        display: block;
-    }
+   .el-upload--text img {
+   	width: 100%;
+   	height: 100%;
+   	display: block;
+   }
 
     .el-tag + .el-tag {
         margin-left: 10px;
