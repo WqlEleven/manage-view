@@ -10,15 +10,16 @@
                 </el-form-item>
                 <el-form-item label="角色权限:">
                     <el-checkbox-group v-model="form.authority">
-                        <el-checkbox v-for="item in authority_list" :label="item.id" name="type">{{item.name}}
+                        <el-checkbox v-for="item in authority_list" :label="item.id" :key="item.id" name="type">{{item.name}}
                         </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-button type="primary" round @click="addRole()">&nbsp;&nbsp;&nbsp;新&nbsp;&nbsp;增&nbsp;&nbsp;&nbsp;
-                </el-button>&nbsp;&nbsp;&nbsp;
-                <router-link to='/manageRole'>
-                    <el-button type="info" round>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;</el-button>
-                </router-link>
+                <el-form-item label="">
+                    <el-button type="primary" round @click="addRole()">新增</el-button>
+                    <router-link to='/manageRole'>
+                        <el-button type="info" round>返回</el-button>
+                    </router-link>
+                </el-form-item>
             </el-form>
         </div>
     </div>
@@ -73,7 +74,7 @@
                             this.$message.warning(res.data.message);
                         }
                     }).catch((err) => {
-                        console.log(err)
+                        console.log(err);
                     });
                 }
             },
@@ -93,7 +94,7 @@
                         this.$message.warning(res.data.message);
                     }
                 }).catch((err) => {
-                    console.log(err)
+                    console.log(err);
                 });
             }
         }

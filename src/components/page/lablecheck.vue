@@ -48,6 +48,13 @@
             }
         },
         created() {
+            //this.tag = this.$route.query.tag;
+        },
+        mounted() {
+            this.tag = this.$route.query.tag;
+            this.getLableCheck();
+        },
+        activated() {
             this.tag = this.$route.query.tag;
             this.getLableCheck();
         },

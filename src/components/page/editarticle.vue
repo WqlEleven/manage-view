@@ -111,6 +111,14 @@
             quillEditor
         },
         created() {
+            //this.form.id = this.$route.query.id;
+        },
+        mounted() {
+            this.form.id = this.$route.query.id;
+            this.getArtMsg();
+        },
+        activated(){
+            this.form.id = this.$route.query.id;
             this.getArtMsg();
         },
         methods: {
@@ -129,7 +137,7 @@
 					this.over = 1;
 				}	else{
 					this.over = 0;
-				}			
+				}
 			},
 			//
             handleClose(tag) {
@@ -267,7 +275,7 @@
     }
 </script>
 <style scoped>
-	
+
     .picture-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;

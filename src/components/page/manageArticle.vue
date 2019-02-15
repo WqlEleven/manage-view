@@ -13,7 +13,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="handleSearch()">搜索</el-button>
+                <el-button type="primary" @click="getArticle()">搜索</el-button>
             </el-form-item>
         </el-form>
         <!-- 状态 -->
@@ -38,7 +38,9 @@
                     <router-link to='/preview'>
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
-                    <el-button type="text" icon="el-icon-edit" @click='goedit(scope.row)'>编辑</el-button>
+                    <router-link :to="{path:'/editarticle',query:{id:scope.row.id}}">
+                        <el-button type="text" icon="el-icon-edit">编辑</el-button>
+                    </router-link>
                 </template>
             </el-table-column>
         </el-table>
@@ -71,15 +73,22 @@
                 tableData: []
             }
         },
-        created() {
+        mounted() {
+            this.getArticle();
+        },
+        activated() {
             this.getArticle();
         },
         methods: {
-            //搜索
-            handleSearch() {
+            //获取文章列表
+            getArticle() {
                 this.$axios.post(
                     'admin/article_list',
-                    this.$qs.stringify({keywords: this.form.keywords, category_id: this.form.category_id})
+                    this.$qs.stringify({
+                        keywords: this.form.keywords,
+                        category_id: this.form.category_id,
+                        page: this.page
+                    })
                 ).then((res) => {
                     // console.log(res);
                     if (res.data.code == -1) {
@@ -96,41 +105,12 @@
                     console.log(err);
                 })
             },
-            //跳转编辑页
-            goedit(art) {
-                this.$router.push({
-                    path: '/editarticleback',
-                    query: {
-                        id: art.id
-                    }
-                });
-            },
+
             // 分页
             handleCurrentChange(val) {
                 this.page = val;
                 this.getArticle();
             },
-            //获取文章列表
-            getArticle() {
-                this.$axios.post(
-                    'admin/article_list',
-                    this.$qs.stringify({page: this.page})
-                ).then((res) => {
-                    // console.log(res);
-                    if (res.data.code == -1) {
-                        this.$message.warning('请登录！');
-                        this.$router.push('/login');
-                    } else if (res.data.code == 0) {
-                        this.tableData = res.data.data.list;
-                        this.total = res.data.data.count;
-                        this.per_page = res.data.data.per_page;
-                    } else {
-                        this.$message.warning(res.data.message);
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                })
-            }
         }
     }
 
