@@ -18,6 +18,8 @@ axios.defaults.baseURL = 'http://guanjia.applinzi.com/';
 axios.defaults.withCredentials = true;
 Vue.prototype.$axios = axios;
 Vue.prototype.$qs = qs;
+Vue.prototype.BASE_URL = 'http://guanjia.applinzi.com/';
+Vue.prototype.IMAGE_URL = 'http://guanjia-uploads.stor.sinaapp.com/';
 
 
 //使用钩子函数对路由进行权限跳转

@@ -32,13 +32,12 @@
                 <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
                 <el-table-column prop="name" label="用户名" width="100" align="center"></el-table-column>
                 <el-table-column prop="real_name" label="姓名" width="100" align="center"></el-table-column>
-                <el-table-column prop="sex" label="性别" width="50" align="center"
-                                 :formatter="formatSex"></el-table-column>
-                <el-table-column prop="role_id" label="角色" width="150" align="center"
-                                 :formatter="formatRole"></el-table-column>
-                <el-table-column prop="mobile" label="电话" width="180" align="center"></el-table-column>
-                <el-table-column prop="admin" label="录入人员" width="100" align="center"></el-table-column>
-                <el-table-column prop="ip" label="最后登录IP" width="130" align="center"></el-table-column>
+                <el-table-column prop="sex" label="性别" width="50" align="center" :formatter="formatSex"></el-table-column>
+                <el-table-column prop="role_name" label="角色" width="140" align="center"></el-table-column>
+                <el-table-column prop="mobile" label="电话" width="120" align="center"></el-table-column>
+                <el-table-column prop="admin_name" label="录入人员" width="100" align="center"></el-table-column>
+                <el-table-column prop="status" label="状态" width="100" align="center" :formatter="formatStatus"></el-table-column>
+                <el-table-column prop="ip" label="最后登录IP" width="100" align="center"></el-table-column>
                 <el-table-column prop="last_time" label="最后登录时间" width="200" align="center"></el-table-column>
                 <el-table-column label="操作" style="width: 10%" align="center">
                     <template slot-scope="scope">
@@ -89,14 +88,6 @@
             this.getUser();
         },
         methods: {
-            //性别、角色转换转换
-            formatSex: function (row, column) {
-                return row.sex == '0' ? "未知" : row.sex == '1' ? "男" : row.sex == '2' ? "女" : "aaa";
-            },
-            formatRole: function (row, column) {
-                return row.role_id == '1' ? "普通用户" : row.role_id == '2' ? "系统管理员" : "aa";
-            },
-
             //获取用户列表
             getUser() {
                 this.$axios.post(
@@ -128,6 +119,22 @@
             handleCurrentChange(val) {
                 this.page = val;
                 this.getUser();
+            },
+
+            //性别转换
+            formatSex: function (row, column) {
+                var sex = '未知';
+                if (row.sex == 1) {
+                    sex = '男';
+                } else if (row.sex == 2) {
+                    sex = '女';
+                }
+                return sex;
+            },
+
+            //状态转换
+            formatStatus: function (row, column) {
+                return row.status == 0 ? '启用' : '禁用';
             },
         }
     }

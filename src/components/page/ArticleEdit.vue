@@ -83,6 +83,7 @@
                     id: '',
                     title: '',
                     picture: '',
+                    intro:'',
                     content: '',
                     category_id: '',
 					intro:''
@@ -238,6 +239,7 @@
                         this.dynamicTags = res.data.data.info.tags.split(',');
                         this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
                         this.form.picture = res.data.data.info.picture;
+                        this.form.intro = res.data.data.info.intro;
                         this.form.content = res.data.data.info.content;
                     }
                 }).catch((err) => {

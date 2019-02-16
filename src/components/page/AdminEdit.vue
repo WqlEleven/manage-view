@@ -23,8 +23,8 @@
                 <el-form-item label="修改密码:">
                     <el-input v-model="form.password"></el-input>
                 </el-form-item>
-                <el-form-item label="启用/禁用:">
-                    <el-switch v-model="form.status" :on-value="100" :off-value="0"></el-switch>
+                <el-form-item label="禁用:">
+                    <el-switch v-model="form.status" :on-value="1" :off-value="0"></el-switch>
                 </el-form-item>
                 <el-form-item label="录入人员:">
                     <span id="person"></span>
@@ -39,10 +39,12 @@
                     <span id="last_time"></span>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" round @click="handleedit()">修改</el-button>
-                    <router-link to='/manageUser'>
-                        <el-button type="primary" round>返回</el-button>
-                    </router-link>
+                    <el-row>
+                        <el-button type="primary" round @click="handleedit()">修改</el-button>
+                        <router-link to='/AdminList'>
+                            <el-button type="primary" round>返回</el-button>
+                        </router-link>
+                    </el-row>
                 </el-form-item>
             </el-form>
         </div>
@@ -72,7 +74,7 @@
             this.form.id = this.$route.query.id;
             this.getUser();
         },
-        activated(){
+        activated() {
             this.form.id = this.$route.query.id;
             this.getUser();
         },
@@ -102,7 +104,7 @@
                         const add_time = document.getElementById('add_time');
                         add_time.innerText = res.data.data.info.add_time
                         const person = document.getElementById('person');
-                        person.innerText = res.data.data.info.person
+                        person.innerText = res.data.data.info.admin_name
                         const ip = document.getElementById('ip');
                         ip.innerText = res.data.data.info.ip
                     }
@@ -155,7 +157,6 @@
     span {
         color: #666;
     }
-
     .active {
         display: none;
     }
