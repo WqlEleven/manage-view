@@ -16,7 +16,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" round @click="edit()">修改</el-button>
-                    <router-link to='/manageRole'>
+                    <router-link class="back" to='/RoleList'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
                 </el-form-item>
@@ -126,5 +126,8 @@
 <style scoped>
     span {
         color: #666;
+    }
+    .back {
+        margin-left: 10px;
     }
 </style>

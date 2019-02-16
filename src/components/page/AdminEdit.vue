@@ -41,7 +41,7 @@
                 <el-form-item>
                     <el-row>
                         <el-button type="primary" round @click="handleedit()">修改</el-button>
-                        <router-link to='/AdminList'>
+                        <router-link class="back" to='/AdminList'>
                             <el-button type="primary" round>返回</el-button>
                         </router-link>
                     </el-row>
@@ -156,6 +156,9 @@
 <style scoped>
     span {
         color: #666;
+    }
+    .back {
+        margin-left: 10px;
     }
     .active {
         display: none;
