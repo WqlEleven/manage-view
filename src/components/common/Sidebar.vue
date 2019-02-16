@@ -15,7 +15,7 @@
                                     {{ threeItem.title }}
                                 </el-menu-item>
                             </el-submenu>
-                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">
+                            <el-menu-item v-else-if="authority_list.indexOf(subItem.code) != -1" :index="subItem.index" :key="subItem.index">
                                 {{ subItem.title }}
                             </el-menu-item>
                         </template>
@@ -47,18 +47,22 @@
                             {
                                 index: 'ArticleAdd',
                                 title: '发布文章',
+                                code: 'publish'
                             },
                             {
                                 index: 'ArticleList',
                                 title: '文章管理',
+                                code: 'article'
                             },
                             {
                                 index: 'TagList',
                                 title: '标签管理',
+                                code: 'tag'
                             },
                             {
                                 index: 'RecycleBin',
                                 title: '回收站',
+                                code: 'recycle'
                             }
                         ]
 
@@ -71,14 +75,17 @@
                             {
                                 index: 'AdminList',
                                 title: '用户管理',
+                                code: 'admin'
                             },
                             {
                                 index: 'RoleList',
                                 title: '角色管理',
+                                code: 'role'
                             },
                             {
                                 index: 'AuthorityList',
                                 title: '权限管理',
+                                code: 'authority'
                             }
                         ]
                     },
@@ -87,7 +94,8 @@
                     //     index: 'dashboard',
                     //     title: '系统首页'
                     // },
-                ]
+                ],
+                authority_list: []
             }
         },
         computed: {
@@ -100,6 +108,29 @@
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
+        },
+        mounted() {
+            this.getAuthorityList();
+        },
+        methods: {
+            getAuthorityList() {
+                this.$axios.post(
+                    'admin/authority_user',
+                    this.$qs.stringify({})
+                ).then((res) => {
+                    //console.log(res);
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+                        this.authority_list = res.data.data.list
+                    } else {
+                        this.$message.warning(res.data.message);
+                    }
+                }).catch((res) => {
+                    console.log(res);
+                });
+            }
         }
     }
 </script>
