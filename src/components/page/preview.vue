@@ -5,48 +5,102 @@
 				<!-- 版心 -->
 				<div class="w">
 					<!-- 标题 -->
-					<div class="title">
-						十部委发文鼓励民营资本参与养老服务
+					<div class="title" id="title">
 					</div>
 					<!-- 标签 -->
 					<div class="lable">
-						<span>原创</span>
-						<span>江湖老道</span>
-						<span>健康达人</span>
-						<span>12月26日</span>
-					</div>
-					<!-- 头图 -->
-					<div class="picture">
-						<img src="../../assets/img/img.jpg" />
+						<span id="category_id"></span>
+						<span id="tage"></span>
+						<span id="add_time"></span>
 					</div>
 					<!-- 导语 -->
 					<div class="intro">
 						<!-- 导读 -->
 						<div class="read"><span></span>导读</div>
-						<div class="introContent">
-							今年2月25日，民政部、发展改革委、教育部等十部委联合发布《关于鼓励民间资本参与养老服务业发展的实施意见》
+						<div class="introContent" id="intro">
 						</div>
 					</div>
+					<!-- 头图 -->
+					<div class="picture active" id="picture">
+					</div>					
 					<!-- 文章内容 -->
-					<div class="articleConnect">
-						<p>今年2月25日，民政部、发展改革委、教育部等+部委联合发布《关于鼓励民间资本参与养老服务业发展的实施意见》, 
-						由中国老龄事业发展基金会紫荆健康基金和中融优清联合主办的“全国公益免费查体.健康中国万里行”  
-						活动在云南禄劝开展，响应国家政策，为65周岁以上的老年人进行免费健康体检。此图为现场启动仪式。</p>
-						<p>由中国老龄事业发展基金会紫荆健康基金和中融优清联合主办的“全国公益免费查体.健康中国万里行”活动在云南禄劝开展，
-						响应国家政策，为65周岁以上的老年人进行免费健康体检。此图为现场启动仪式。</p>
+					<div class="articleConnect" id="content">
 					</div>
 					<!-- footer -->
 					<div class="footer">
-						<div class="el-icon-view">2343人围观</div>
+						<div class="el-icon-view"><span id="click"></span>人围观</div>
 						<div class="el-icon-share">分享</div>
 					</div>
 				</div>
+			</div>
+			<!-- 二维码 -->
+			<div class="img">
+				
 			</div>
    </div>           
 </template>
 
 <script>
-    export default {       
+    export default {
+        name: 'preview',
+        data: function () {
+            return {								
+                        
+            }
+        },
+        mounted() {
+            const id = this.$route.query.id;
+            this.getArtMsg();
+        },
+        activated(){
+            const id = this.$route.query.id;
+            this.getArtMsg();
+        },
+        methods: {
+            //获取文章信息
+            getArtMsg() {
+                const id = this.$route.query.id;
+                this.$axios.post(
+                    'admin/article_info',
+                    this.$qs.stringify({id: id})
+                ).then((res) => {
+                    console.log(res);
+                    if (res.data.code == -1) {
+                        this.$message.warning('请登录！');
+                        this.$router.push('/login');
+                    } else if (res.data.code == 0) {
+//                         //写逻辑
+                        const title = res.data.data.info.title;
+												document.getElementById('title').innerText = title
+                        const category_id = res.data.data.info.category_id;
+												if(category_id == 2){
+													document.getElementById('category_id').innerText = '原创';
+												}else if(category_id == 3){
+													document.getElementById('category_id').innerText = '转载';
+												}else if(category_id == 4){
+													document.getElementById('category_id').innerText = '用户投稿'
+												}
+                       const tags = res.data.data.info.tags.split(',').join(' ');
+											 document.getElementById('tage').innerText = tags;
+											 const add_time = res.data.data.info.add_time.split(' ')[0].split('-');
+											 document.getElementById('add_time').innerText = add_time[1]+'月'+add_time[2]+'日';
+                        const pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+                        // const picture = res.data.data.info.picture;
+												const imgUrl = '<img src="'+pictureUrl+'" />';
+												console.log(imgUrl)
+												// document.getElementById('picture').innerHTML = imgUrl;
+                        const intro = res.data.data.info.intro;
+												document.getElementById('intro').innerText = intro
+                     const content = res.data.data.info.content;
+										 // document.getElementById('content').innerHTML = content;
+										 const click = res.data.data.info.click;
+										 document.getElementById('click').innerText = click
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }
     }
 </script>
 
@@ -55,12 +109,16 @@
 		margin: 0;
 		padding: 0;
 	}
+	.active{
+		display: none;
+	}
 	/* 总体 */
 	.box{
 		width:375px;
 		_height:100px; 
 		min-height:100px;
 		background-color: #ccc;
+		float: left;
 	}
 	.w{
 		margin-left: 15px;
@@ -84,10 +142,10 @@
 	.lable span{
 		margin-right: 10px;
 	}
-	.lable span:nth-child(1),.lable span:nth-child(4){
+	.lable span:nth-child(1),.lable span:nth-child(3){
 		color: #999;
 	}
-	.lable span:nth-child(2),.lable span:nth-child(3){
+	.lable span:nth-child(2){
 		color: #3399ff;
 	}
 /* 头图 */
@@ -99,6 +157,7 @@
 .picture img{
 	width: 100%;
 	height: 100%;
+	display: block;
 }
 /* 导语 */
 .intro{
@@ -115,6 +174,7 @@
 	width: 325px;
 	height: 18px;
 	font-size: 16px;
+	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-top: 10px;
@@ -165,5 +225,12 @@
 .el-icon-share{
 	float: right;
 	letter-spacing:2px;
+}
+
+/* 二维码 */
+.img{
+	margin-top: 200px;
+	margin-left: 20px;
+	float: left;
 }
 </style>

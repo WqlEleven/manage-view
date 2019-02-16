@@ -35,7 +35,7 @@
             <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
-                    <router-link to='/preview'>
+                    <router-link :to="{path:'/preview',query:{id:scope.row.id}}">
                         <el-button type="text" icon="el-icon-search">查看</el-button>
                     </router-link>
                     <router-link :to="{path:'/ArticleEdit',query:{id:scope.row.id}}">
