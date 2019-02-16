@@ -30,14 +30,15 @@
             <!-- 表格 -->
             <el-table :data="tableData" border style="width: 100%">
                 <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="name" label="用户名" width="100" align="center"></el-table-column>
                 <el-table-column prop="real_name" label="姓名" width="100" align="center"></el-table-column>
                 <el-table-column prop="sex" label="性别" width="50" align="center"
                                  :formatter="formatSex"></el-table-column>
                 <el-table-column prop="role_id" label="角色" width="150" align="center"
                                  :formatter="formatRole"></el-table-column>
                 <el-table-column prop="mobile" label="电话" width="180" align="center"></el-table-column>
-                <el-table-column prop="admin" label="录入人员" width="180" align="center"></el-table-column>
-                <el-table-column prop="ip" label="最后登录IP" width="150" align="center"></el-table-column>
+                <el-table-column prop="admin" label="录入人员" width="100" align="center"></el-table-column>
+                <el-table-column prop="ip" label="最后登录IP" width="130" align="center"></el-table-column>
                 <el-table-column prop="last_time" label="最后登录时间" width="200" align="center"></el-table-column>
                 <el-table-column label="操作" style="width: 10%" align="center">
                     <template slot-scope="scope">

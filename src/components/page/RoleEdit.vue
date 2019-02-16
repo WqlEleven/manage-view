@@ -74,7 +74,7 @@
                         this.$router.push('/login');
                     } else if (res.data.code == 0) {
                         this.$message.success(res.data.message);
-                        this.$router.push('/manageRole')
+                        this.$router.push('/RoleList')
                     } else {
                         this.$message.warning(res.data.message);
                     }

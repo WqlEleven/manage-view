@@ -133,7 +133,7 @@
                             this.$router.push('/login');
                         } else if (res.data.code == 0) {
                             this.$message.success(res.data.message);
-                            this.$router.push('/manageUser');
+                            this.$router.push('/AdminList');
                         } else {
                             //console.log(res.data.message);
                             this.$message.warning(res.data.message);

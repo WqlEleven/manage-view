@@ -15,7 +15,7 @@
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-button type="primary" round @click="RoleAdd()">新增</el-button>
+                    <el-button type="primary" round @click="addRole()">新增</el-button>
                     <router-link to='/manageRole'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>

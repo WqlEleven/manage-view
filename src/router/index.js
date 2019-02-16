@@ -94,7 +94,7 @@ export default new Router({
                 {
                     path: '/RoleEdit',
                     component: resolve => require(['../components/page/RoleEdit.vue'], resolve),
-                    meta: {title: '修改'}
+                    meta: {title: '角色修改'}
                 },
                 {
                     path: '/AuthorityAdd',
