@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="id" label="序号" width="100" align="center"></el-table-column>
+            <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
             <el-table-column prop="category_name" label="分类" width="200" align="center"></el-table-column>
             <el-table-column prop="title" label="文章标题" style="width: 20%" align="center"></el-table-column>
             <el-table-column prop="add_time" label="创建时间" width="250" align="center"></el-table-column>

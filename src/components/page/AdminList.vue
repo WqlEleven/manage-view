@@ -29,7 +29,7 @@
             <div class="gehang"></div>
             <!-- 表格 -->
             <el-table :data="tableData" border style="width: 100%">
-                <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="id" label="ID" width="50" align="center"></el-table-column>
                 <el-table-column prop="name" label="用户名" width="100" align="center"></el-table-column>
                 <el-table-column prop="real_name" label="姓名" width="100" align="center"></el-table-column>
                 <el-table-column prop="sex" label="性别" width="50" align="center" :formatter="formatSex"></el-table-column>

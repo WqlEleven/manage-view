@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="id" label="序号" width="200" align="center"></el-table-column>
+            <el-table-column prop="id" label="ID" width="200" align="center"></el-table-column>
             <el-table-column prop="name" label="标签" style="width: 20%" align="center"></el-table-column>
             <el-table-column prop="num" label="篇数" width="250" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">

@@ -7,7 +7,7 @@
             <div class="gehang"></div>
             <!-- 表格 -->
             <el-table :data="tableData" border style="width: 100%">
-                <el-table-column prop="id" label="序号" width="50" align="center"></el-table-column>
+                <el-table-column prop="id" label="ID" width="50" align="center"></el-table-column>
                 <el-table-column prop="name" label="角色名称" width="150" align="center"></el-table-column>
                 <el-table-column prop="describe" label="角色描述" style="width: 20%" align="center"></el-table-column>
                 <el-table-column prop="add_time" label="创建时间" width="180" align="center"></el-table-column>
