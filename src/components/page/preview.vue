@@ -36,7 +36,7 @@
 		</div>
 		<!-- 二维码 -->
 		<div class="qr">
-			<img src="http://guanjia.changshouclub.com/admin/article_qrcode/1.jpg" alt="">
+			<img src="" alt="" id="qr">
 			<div>微信扫描二维码预览文章</div>
 		</div>
 	</div>
@@ -93,11 +93,18 @@
 						const intro = res.data.data.info.intro;
 						document.getElementById('intro').innerText = intro
 						// 内容
-						const content = res.data.data.info.content;
+						const content = res.data.data.info.content;				
 						document.getElementById('content').innerHTML = content;
-						
+						var a = document.getElementById("content").getElementsByTagName("img");
+						for(var i = 0; i <a.length; i++){
+							a[i].style = 'width:100%'
+						}
+					
 						const click = res.data.data.info.click;
 						document.getElementById('click').innerText = click
+						//二维码
+						const p = 'http://guanjia.changshouclub.com/admin/article_qrcode/'+res.data.data.info.id
+						document.getElementById('qr').src = p ;
 					}
 				}).catch((err) => {
 					console.log(err);
@@ -108,15 +115,10 @@
 </script>
 
 <style scoped>
-	.img{
-		width: 100%;
-		height: 100%;
-	}
 	* {
 		margin: 0;
 		padding: 0;
 	}
-
 	.active {
 		display: none;
 	}
@@ -128,34 +130,30 @@
 		min-height: 100px;
 		background-color: #ccc;
 		float: left;
-	}
-
+	}s
 	.w {
 		margin-left: 15px;
 		width: 345px;
 		_height: 100px;
 		min-height: 100px;
 	}
-
 	/* 标题 */
 	.title {
 		width: 100%;
 		font-size: 26px;
 		letter-spacing: 2px;
 		margin-bottom: 25px;
+		margin-top: 25px;
 	}
-
 	/* 标签 */
 	.lable {
 		width: 100%;
 		font-size: 16px;
 		margin-bottom: 25px;
 	}
-
 	.lable span {
 		margin-right: 10px;
 	}
-
 	.lable span:nth-child(1),
 	.lable span:nth-child(3) {
 		color: #999;
@@ -164,7 +162,6 @@
 	.lable span:nth-child(2) {
 		color: #3399ff;
 	}
-
 	/* 头图 */
 	.picture {
 		width: 100%;
@@ -232,11 +229,9 @@
 		letter-spacing: 2px;
 		font-weight: 500;
 	}
-
 	.articleConnect p {
 		margin-bottom: 37px;
 	}
-
 	/* footer */
 	.footer {
 		margin-top: 16px;
