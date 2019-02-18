@@ -49,7 +49,7 @@
 				</el-form-item>
                 <el-form-item prop="content" label="内容">
                     <!-- 富文本编辑器 -->
-                    <quill-editor ref="myTextEditor" v-model="form.content" :options="editorOption"></quill-editor>
+                    <quill-editor ref="myQuillEditor" v-model="form.content" :options="editorOption"></quill-editor>
                 </el-form-item>
                 <el-form-item label="">
                     <el-row>
@@ -71,7 +71,10 @@
     import 'quill/dist/quill.core.css';
     import 'quill/dist/quill.snow.css';
     import 'quill/dist/quill.bubble.css';
-    import {quillEditor} from 'vue-quill-editor';
+    import {quillEditor, Quill} from 'vue-quill-editor';
+    import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module';
+
+    Quill.register('modules/ImageExtend', ImageExtend);
 
     export default {
         name: 'editor',
@@ -100,7 +103,25 @@
                     ],
                 },
                 editorOption: {
-                    placeholder: '在这里输入文章正文！'
+                    placeholder: '在这里输入文章正文！',
+                    modules: {
+                        ImageExtend: {
+                            loading: true,
+                            name: 'file',
+                            action: this.BASE_URL + 'admin/upload_editor',
+                            response: (res) => {
+                                return res.data.file
+                            }
+                        },
+                        toolbar: {
+                            container: container,
+                            handlers: {
+                                'image': function () {
+                                    QuillWatch.emit(this.quill.id)
+                                }
+                            }
+                        }
+                    }
                 },
                 pictureUrl: '',
                 dynamicTags: [],
@@ -121,6 +142,11 @@
         activated(){
             this.form.id = this.$route.query.id;
             this.getArtMsg();
+        },
+        computed: {
+            editor() {
+                return this.$refs.myQuillEditor.quill;
+            }
         },
         methods: {
 			//处理输入事件

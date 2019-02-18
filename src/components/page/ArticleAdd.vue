@@ -51,7 +51,7 @@
                 </el-form-item>
                 <el-form-item prop="content" label="内容">
                     <!-- 富文本编辑器 -->
-                    <quill-editor ref="myTextEditor" v-model="form.content" :options="editorOption"></quill-editor>
+                    <quill-editor ref="myQuillEditor" v-model="form.content" :options="editorOption"></quill-editor>
                 </el-form-item>
                 <el-form-item label="">
                     <el-row>
@@ -132,6 +132,11 @@
         },
         components: {
             quillEditor
+        },
+        computed: {
+            editor() {
+                return this.$refs.myQuillEditor.quill;
+            }
         },
         methods: {
             //处理输入事件
