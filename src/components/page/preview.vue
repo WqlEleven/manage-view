@@ -210,7 +210,7 @@
 
 	/* 导读内容 */
 	.introContent {
-		width: 325px;
+		width: 100%;
 		font-size: 16px;
 		padding-left: 10px;
 		padding-right: 10px;
