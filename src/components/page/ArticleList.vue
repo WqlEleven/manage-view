@@ -31,7 +31,7 @@
             <el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
             <el-table-column prop="category_name" label="分类" width="100" align="center"></el-table-column>
             <el-table-column prop="title" label="产品推广标题" style="width: 30%" align="center"></el-table-column>
-            <el-table-column prop="click" label="转发人数/查看人数" width="150" align="center"></el-table-column>
+            <el-table-column prop="click" label="转发人数/查看人数" width="150" align="center" :formatter="formatClick"></el-table-column>
             <el-table-column prop="add_time" label="添加时间" width="200" align="center"></el-table-column>
             <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
@@ -111,6 +111,10 @@
                 this.page = val;
                 this.getArticle();
             },
+
+            formatClick:function (row, column) {
+                return row.share + '/' + row.click;
+            }
         }
     }
 
