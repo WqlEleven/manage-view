@@ -28,7 +28,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" round @click="finish()">完成</el-button>
-                    <router-link to='/manageUser'>
+                    <router-link to='/AdminList'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
                 </el-form-item>

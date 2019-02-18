@@ -10,7 +10,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" round @click="addRole()">新增</el-button>
-                    <router-link to='/managePower'>
+                    <router-link to='/AuthorityList'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
                 </el-form-item>
