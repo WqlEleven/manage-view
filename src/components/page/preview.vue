@@ -21,9 +21,9 @@
 					</div>
 				</div>
 				<!-- 头图 -->
-				<div class="picture active" id="picture">
+				<!-- <div class="picture active" id="picture">
 					<img id="img" src="" alt="">
-				</div>
+				</div> -->
 				<!-- 文章内容 -->
 				<div class="articleConnect" id="content">
 				</div>
@@ -65,7 +65,7 @@
 					'admin/article_info',
 					this.$qs.stringify({ id: id })
 				).then((res) => {
-					console.log(res);
+					// console.log(res);
 					if (res.data.code == -1) {
 						this.$message.warning('请登录！');
 						this.$router.push('/login');
@@ -85,11 +85,11 @@
 						document.getElementById('tage').innerText = tags;
 						const add_time = res.data.data.info.add_time.split(' ')[0].split('-');
 						document.getElementById('add_time').innerText = add_time[1] + '月' + add_time[2] + '日';
-						const pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
-						if(pictureUrl != ''){
-							document.getElementById('picture').classList.remove("active");
-							document.getElementById('img').src = pictureUrl;					
-						}
+// 						const pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+// 						if(pictureUrl != ''){
+// 							document.getElementById('picture').classList.remove("active");
+// 							document.getElementById('img').src = pictureUrl;					
+// 						}
 						const intro = res.data.data.info.intro;
 						document.getElementById('intro').innerText = intro
 						// 内容
