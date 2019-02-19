@@ -4,7 +4,7 @@
         <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>
         </div>
-        <div class="logo">长寿管家</div>
+        <div class="logo">长寿小管家</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
