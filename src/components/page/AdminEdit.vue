@@ -21,7 +21,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="修改密码:">
-                    <el-input v-model="form.password"></el-input>
+                    <el-input type="password" v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="禁用:">
                     <el-switch v-model="form.status" :on-value="1" :off-value="0"></el-switch>

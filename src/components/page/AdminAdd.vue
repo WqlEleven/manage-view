@@ -24,11 +24,11 @@
                     <el-input v-model="form.name	"></el-input>
                 </el-form-item>
                 <el-form-item label="密码:">
-                    <el-input v-model="form.password"></el-input>
+                    <el-input type="password" v-model="form.password"></el-input>
                 </el-form-item>
                 <el-form-item label="">
                     <el-button type="primary" round @click="finish()">完成</el-button>
-                    <router-link to='/AdminList'>
+                    <router-link class="back" to='/AdminList'>
                         <el-button type="info" round>返回</el-button>
                     </router-link>
                 </el-form-item>
@@ -80,5 +80,8 @@
 <style scoped>
     span {
         color: #666;
+    }
+    .back {
+        margin-left: 10px;
     }
 </style>

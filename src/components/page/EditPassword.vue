@@ -2,17 +2,17 @@
     <div class="container">
         <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="旧密码:">
-                <el-input v-model="form.oldpwd"></el-input>
+                <el-input type="password" v-model="form.oldpwd"></el-input>
             </el-form-item>
             <el-form-item label="新密码:">
-                <el-input v-model="form.newpwd"></el-input>
+                <el-input type="password" v-model="form.newpwd"></el-input>
             </el-form-item>
             <el-form-item label="确认新密码:">
-                <el-input v-model="form.pwd"></el-input>
+                <el-input type="password" v-model="form.pwd"></el-input>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" round @click="EditPassword()">确认修改</el-button>
-                <router-link to='/manageArticle'>
+                <el-button type="primary" round @click="editpwd()">确认修改</el-button>
+                <router-link class="back" to='/ArticleList'>
                     <el-button type="info" round>返回</el-button>
                 </router-link>
             </el-form-item>
@@ -73,4 +73,7 @@
     }
 </script>
 <style scoped>
+    .back {
+        margin-left: 10px;
+    }
 </style>
