@@ -58,7 +58,7 @@
             //获取列表
             getList() {
                 this.$axios.post(
-                    'admin/authority_list',
+                    '/admin/authority_list',
                     this.$qs.stringify({page: this.page})
                 ).then((res) => {
                     // console.log(res);
@@ -92,7 +92,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios.post(
-                        'admin/authority_delete',
+                        '/admin/authority_delete',
                         this.$qs.stringify({id: text.id})
                     ).then((res) => {
                         // console.log(res);

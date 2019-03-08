@@ -36,7 +36,7 @@
                 <el-form-item prop="picture" label="头图">
                     <el-upload
                             class="picture-uploader"
-                            action="http://guanjia.applinzi.com/admin/upload_image"
+                            :action="uploadUrl"
                             :show-file-list="false"
                             :on-success="handlePictureSuccess"
                             :before-upload="beforePictureUpload">
@@ -108,7 +108,7 @@
                         ImageExtend: {
                             loading: true,
                             name: 'file',
-                            action: this.BASE_URL + 'admin/upload_editor',
+                            action: this.BASE_URL + '/admin/upload_editor',
                             response: (res) => {
                                 return res.data.file
                             }
@@ -123,6 +123,7 @@
                         }
                     }
                 },
+                uploadUrl: this.BASE_URL + '/admin/upload_image',
                 pictureUrl: '',
                 dynamicTags: [],
                 inputVisible: false,
@@ -192,7 +193,7 @@
             handlePictureSuccess(res, file) {
                 if (res.code == 0) {
                     this.form.picture = res.data.file;
-                    this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.file;
+                    this.pictureUrl = this.IMAGE_URL + '/image/' + res.data.file;
                 }
             },
             beforePictureUpload(file) {
@@ -217,7 +218,7 @@
 							this.form.type = type;
 							this.form.tags = this.dynamicTags.join(',');
 							this.$axios.post(
-								'admin/article_edit',
+								'/admin/article_edit',
 								this.$qs.stringify(this.form))
 							.then((res) => {
 								// console.log(res);
@@ -250,7 +251,7 @@
             getArtMsg() {
                 this.form.id = this.$route.query.id;
                 this.$axios.post(
-                    'admin/article_info',
+                    '/admin/article_info',
                     this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
                     // console.log(res);
@@ -263,7 +264,7 @@
                         this.form.title = res.data.data.info.title;
                         this.form.category_id = res.data.data.info.category_id;
                         this.dynamicTags = res.data.data.info.tags.split(',');
-                        this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+                        this.pictureUrl = this.IMAGE_URL + '/image/' + res.data.data.info.picture;
                         this.form.picture = res.data.data.info.picture;
                         this.form.intro = res.data.data.info.intro;
                         this.form.content = res.data.data.info.content;
@@ -281,7 +282,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios.post(
-                        'admin/article_delete',
+                        '/admin/article_delete',
                         this.$qs.stringify({id: this.form.id})
                     ).then((res) => {
                         // console.log(res);

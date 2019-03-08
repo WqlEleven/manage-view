@@ -62,7 +62,7 @@
             //获取标签列表
             getLableCheck() {
                 this.$axios.post(
-                    'admin/tag_article',
+                    '/admin/tag_article',
                     this.$qs.stringify({tag: this.tag, page: this.page})
                 ).then((res) => {
                     console.log(res);

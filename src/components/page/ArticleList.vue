@@ -83,7 +83,7 @@
             //获取文章列表
             getArticle() {
                 this.$axios.post(
-                    'admin/article_list',
+                    '/admin/article_list',
                     this.$qs.stringify({
                         keywords: this.form.keywords,
                         category_id: this.form.category_id,

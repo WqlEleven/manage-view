@@ -62,7 +62,7 @@
                             if (this.form.newpwd == this.form.pwd) {
                                 //发送请求
                                 this.$axios.post(
-                                    'admin/password',
+                                    '/admin/password',
                                     this.$qs.stringify({old_password: this.form.oldpwd, password: this.form.newpwd})
                                 ).then((res) => {
                                     // console.log(res);

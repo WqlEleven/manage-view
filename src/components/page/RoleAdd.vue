@@ -80,7 +80,7 @@
                             //console.log(chestr)
                             this.form.authority = chestr.join(',');
                             this.$axios.post(
-                                'admin/role_add',
+                                '/admin/role_add',
                                 this.$qs.stringify(this.form)
                             ).then((res) => {
                                 // console.log(res)
@@ -106,7 +106,7 @@
             //动态获取权限列表
             getauthority() {
                 this.$axios.post(
-                    'admin/authority_all',
+                    '/admin/authority_all',
                     this.$qs.stringify({})
                 ).then((res) => {
                     // console.log(res)

@@ -47,7 +47,7 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.$axios.post(
-                            'admin/authority_add',
+                            '/admin/authority_add',
                             this.$qs.stringify(this.form)
                         ).then((res) => {
                             // console.log(res);

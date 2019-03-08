@@ -119,7 +119,7 @@
             getUser() {
                 //this.form.id = this.$route.query.id;
                 this.$axios.post(
-                    'admin/admin_info',
+                    '/admin/admin_info',
                     this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
                     // console.log(res);
@@ -164,7 +164,7 @@
                                 this.form.status = 0
                             }
                             this.$axios.post(
-                                'admin/admin_edit',
+                                '/admin/admin_edit',
                                 this.$qs.stringify(this.form)
                             ).then((res) => {
                                 // console.log(res);

@@ -60,7 +60,7 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.$axios.post(
-                            'admin/authority_edit',
+                            '/admin/authority_edit',
                             this.$qs.stringify(this.form),
                         ).then((res) => {
                             //console.log(res);
@@ -87,7 +87,7 @@
             getArtMsg() {
                 this.form.id = this.$route.query.id;
                 this.$axios.post(
-                    'admin/authority_info',
+                    '/admin/authority_info',
                     this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
                     // console.log(res);

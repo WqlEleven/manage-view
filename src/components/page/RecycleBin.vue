@@ -50,7 +50,7 @@
             //获取文章列表
             getArticle() {
                 this.$axios.post(
-                    'admin/article_recycle',
+                    '/admin/article_recycle',
                     this.$qs.stringify({page: this.page})
                 ).then((res) => {
                     // console.log(res);

@@ -85,7 +85,7 @@
                         }
                         this.form.authority = chestr.join(',');
                         this.$axios.post(
-                            'admin/role_edit',
+                            '/admin/role_edit',
                             this.$qs.stringify(this.form)
                         ).then((res) => {
                             // console.log(res)
@@ -110,7 +110,7 @@
             //动态获取权限列表
             getauthority() {
                 this.$axios.post(
-                    'admin/authority_all'
+                    '/admin/authority_all'
                 ).then((res) => {
                     // console.log(res)
                     if (res.data.code == -1) {
@@ -129,7 +129,7 @@
             getArtMsg() {
                 //this.form.id = this.$route.query.id;
                 this.$axios.post(
-                    'admin/role_info',
+                    '/admin/role_info',
                     this.$qs.stringify({id: this.form.id})
                 ).then((res) => {
                     // console.log(res);

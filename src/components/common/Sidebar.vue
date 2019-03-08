@@ -115,7 +115,7 @@
         methods: {
             getAuthorityList() {
                 this.$axios.post(
-                    'admin/authority_user',
+                    '/admin/authority_user',
                     this.$qs.stringify({})
                 ).then((res) => {
                     //console.log(res);

@@ -61,7 +61,7 @@
             // 获取文章列表
             getArticle() {
                 this.$axios.post(
-                    'admin/article_list',
+                    '/admin/article_list',
                     this.$qs.stringify({page: this.page, is_publish: this.is_publish})
                 ).then((res) => {
                     if (res.data.code == -1) {
@@ -94,7 +94,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios.post(
-                        'admin/article_delete',
+                        '/admin/article_delete',
                         this.$qs.stringify({id: article.id})
                     ).then((res) => {
                         if (res.data.code == 0) {

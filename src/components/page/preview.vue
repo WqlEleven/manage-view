@@ -62,7 +62,7 @@
 			getArtMsg() {
 				const id = this.$route.query.id;
 				this.$axios.post(
-					'admin/article_info',
+					'/admin/article_info',
 					this.$qs.stringify({ id: id })
 				).then((res) => {
 					// console.log(res);
@@ -85,7 +85,7 @@
 						document.getElementById('tage').innerText = tags;
 						const add_time = res.data.data.info.add_time.split(' ')[0].split('-');
 						document.getElementById('add_time').innerText = add_time[1] + '月' + add_time[2] + '日';
-// 						const pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.data.info.picture;
+// 						const pictureUrl = this.IMAGE_URL + '/image/' + res.data.data.info.picture;
 // 						if(pictureUrl != ''){
 // 							document.getElementById('picture').classList.remove("active");
 // 							document.getElementById('img').src = pictureUrl;					
@@ -103,7 +103,7 @@
 						const click = res.data.data.info.click;
 						document.getElementById('click').innerText = click
 						//二维码
-						const p = 'http://guanjia.changshouclub.com/admin/article_qrcode/'+res.data.data.info.id
+						const p = this.baseUrl + '/admin/article_qrcode/'+res.data.data.info.id
 						document.getElementById('qr').src = p ;
 					}
 				}).catch((err) => {

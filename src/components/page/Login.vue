@@ -50,7 +50,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$axios.post(
-                            'admin/login',
+                            '/admin/login',
                             this.$qs.stringify(this.ruleForm)
                         ).then((res) => {
                             //console.log(res);

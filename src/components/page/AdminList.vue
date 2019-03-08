@@ -91,7 +91,7 @@
             //获取用户列表
             getUser() {
                 this.$axios.post(
-                    'admin/admin_list',
+                    '/admin/admin_list',
                     this.$qs.stringify({
                         real_name: this.form.real_name,
                         mobile: this.form.mobile,

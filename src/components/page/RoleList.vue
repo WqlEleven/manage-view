@@ -56,7 +56,7 @@
             //获取角色列表
             getRole() {
                 this.$axios.post(
-                    'admin/role_list',
+                    '/admin/role_list',
                     this.$qs.stringify({page: this.page})
                 ).then((res) => {
                     // console.log(res);
@@ -90,7 +90,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.$axios.post(
-                        'admin/role_delete',
+                        '/admin/role_delete',
                         this.$qs.stringify({id: text.id})
                     ).then((res) => {
                         // console.log(res);

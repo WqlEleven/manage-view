@@ -37,7 +37,7 @@
                 <el-form-item prop="picture" label="头图">
                     <el-upload
                             class="picture-uploader"
-                            action="http://guanjia.applinzi.com/admin/upload_image"
+                            :action="uploadUrl"
                             :show-file-list="false"
                             :on-success="handlePictureSuccess"
                             :before-upload="beforePictureUpload">
@@ -109,7 +109,7 @@
                         ImageExtend: {
                             loading: true,
                             name: 'file',
-                            action: this.BASE_URL + 'admin/upload_editor',
+                            action: this.BASE_URL + '/admin/upload_editor',
                             response: (res) => {
                                 return res.data.file
                             }
@@ -124,6 +124,7 @@
                         }
                     }
                 },
+                uploadUrl: this.BASE_URL + '/admin/upload_image',
                 pictureUrl: '',
                 dynamicTags: [],
                 inputVisible: false,
@@ -182,7 +183,7 @@
                 if (res.code == 0) {
                     //this.form.picture = URL.createObjectURL(file.raw);
                     this.form.picture = res.data.file;
-                    this.pictureUrl = 'http://guanjia-uploads.stor.sinaapp.com/image/' + res.data.file;
+                    this.pictureUrl = this.IMAGE_URL + '/image/' + res.data.file;
                 }
             },
             beforePictureUpload(file) {
@@ -208,7 +209,7 @@
                             this.form.type = type;
                             this.form.tags = this.dynamicTags.join(',');
                             this.$axios.post(
-                                'admin/article_add',
+                                '/admin/article_add',
                                 this.$qs.stringify(this.form),
                                 //{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
                             ).then((res) => {

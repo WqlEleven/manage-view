@@ -64,7 +64,7 @@
             handleCommand(command) {
                 if (command == 'loginout') {
                     this.$axios.post(
-                        'admin/logout',
+                        '/admin/logout',
                         this.$qs.stringify(this.ruleForm)
                     ).then((res) => {
                         if (res.data.code == 0) {

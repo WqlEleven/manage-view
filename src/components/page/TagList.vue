@@ -47,7 +47,7 @@
             //获取标签列表
             getLable() {
                 this.$axios.post(
-                    'admin/tag_list',
+                    '/admin/tag_list',
                     this.$qs.stringify({page: this.page})
                 ).then((res) => {
                     // console.log(res)
