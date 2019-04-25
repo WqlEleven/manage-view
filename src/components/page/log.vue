@@ -1,7 +1,7 @@
 <template>
     <div class="table">
         <div class="container">
-			<!-- 表单 -->
+		<!-- 表单 -->
          <el-form :inline="true" :model="formInline" class="demo-form-inline">
 							<el-form-item label="姓名:">
 							<el-input v-model="formInline.user" ></el-input>
